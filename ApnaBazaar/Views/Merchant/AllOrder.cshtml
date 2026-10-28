@@ -1,0 +1,220 @@
+﻿@model ApnaBazaar.Models.OrderConbimeModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_shop-dashboardLayout";
+    ViewBag.title = "All Order - ApnaBazaar";
+}
+
+<main class="main-content">
+
+    <header class="top-header-bar">
+        <div class="page-headline">
+            <h1>Grahakon Ke Orders (Customer Orders) 🛍️</h1>
+            <p>Yahan sabhi aane wale naye aur pichhle orders ki puri suchi hai.</p>
+        </div>
+        <div>
+            <span class="header-status-pill">
+                <span class="pulse-indicator"></span> 4 Naye Orders Aaye Hain
+            </span>
+        </div>
+        <select class="form-select" required>
+            <option value="">All Shop</option>
+            @foreach (var row in Model.ShopData)
+            {
+                <option value="@row.shop_id">@row.shopname</option>
+            }
+
+        </select>
+    </header>
+
+    <!-- Orders Stats Summary -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon-wrap amber">
+                <i class="bi bi-bell-fill"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Naye Orders (New)</span>
+                <span class="stat-number">4</span>
+                <span class="stat-subtext">Action lene ki jarurat</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap blue">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Taiyar Ho Rahe (Preparing)</span>
+                <span class="stat-number">3</span>
+                <span class="stat-subtext">Pack ho rahe hain</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap green">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Delivered Orders</span>
+                <span class="stat-number">11</span>
+                <span class="stat-subtext">Aaj pahucha diye gaye</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complete Orders Table -->
+    <section class="dashboard-section">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title"><i class="bi bi-receipt-cutoff"></i> Sabhi Orders Ki List</h2>
+                <p class="section-subtitle">Grahak ka pata, contact aur order ka status</p>
+            </div>
+
+            <div>
+                <button class="btn btn-sm active mb-2 btn-outline-primary fw-bold border border-1 border-primary"
+                        type="button" onclick="show('all', this)">
+                    All Order
+                </button>
+
+                <button class="btn btn-sm mb-2 btn-outline-secondary fw-bold border border-1 border-secondary"
+                        type="button" onclick="show('neworder', this)">
+                    New Order
+                </button>
+
+                <button class="btn btn-sm mb-2 btn-outline-warning fw-bold border border-1 border-warning"
+                        type="button" onclick="show('preparing', this)">
+                    Preparing
+                </button>
+
+                <button class="btn btn-sm mb-2 btn-outline-info border border-1 border-info fw-bold"
+                        type="button" onclick="show('outfordelivery', this)">
+                    Out for Delivery
+                </button>
+
+                <button class="btn btn-sm mb-2 btn-outline-success border border-1 border-success fw-bold"
+                        type="button" onclick="show('delivered', this)">
+                    Delivered
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+            <table class="simple-table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Grahak (Customer)</th>
+                        <th>Delivery Address</th>
+                        <th>Saman (Items)</th>
+                        <th>Total Bill</th>
+                        <th>Payment Mode</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="order-id">#ORD-9021</span></td>
+                        <td>
+                            <div class="customer-name">Rahul Verma</div>
+                            <div class="customer-phone">+91 98112 34567</div>
+                        </td>
+                        <td>H.No. 45, Gali No. 3, Main Market</td>
+                        <td>
+                            <div>Aashirvaad Atta 5kg, Fortune Oil 1L</div>
+                            <span class="item-count-pill">2 items</span>
+                        </td>
+                        <td><strong>₹645</strong></td>
+                        <td><span class="badge badge-success">Online Paid (UPI)</span></td>
+                        <td><span class="badge badge-warning">New Order</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="order-id">#ORD-9020</span></td>
+                        <td>
+                            <div class="customer-name">Pooja Sharma</div>
+                            <div class="customer-phone">+91 97123 45678</div>
+                        </td>
+                        <td>Flat 202, Shiv Shakti Apartments</td>
+                        <td>
+                            <div>Amul Butter 500g, Bread, Eggs (6 pcs)</div>
+                            <span class="item-count-pill">3 items</span>
+                        </td>
+                        <td><strong>₹370</strong></td>
+                        <td><span class="badge badge-info">Cash on Delivery</span></td>
+                        <td><span class="badge badge-warning">Preparing</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="order-id">#ORD-9019</span></td>
+                        <td>
+                            <div class="customer-name">Amit Kumar</div>
+                            <div class="customer-phone">+91 99887 76655</div>
+                        </td>
+                        <td>Shop 5 Ke Samne, Station Road</td>
+                        <td>
+                            <div>Tata Tea Gold 500g, Sugar 2kg</div>
+                            <span class="item-count-pill">2 items</span>
+                        </td>
+                        <td><strong>₹410</strong></td>
+                        <td><span class="badge badge-success">Online Paid</span></td>
+                        <td><span class="badge badge-info">Out for Delivery</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="order-id">#ORD-9018</span></td>
+                        <td>
+                            <div class="customer-name">Sunita Devi</div>
+                            <div class="customer-phone">+91 96543 21098</div>
+                        </td>
+                        <td>Near Old Post Office, Dadri</td>
+                        <td>
+                            <div>Surf Excel 1kg, Dettol Soap (Pack of 3)</div>
+                            <span class="item-count-pill">2 items</span>
+                        </td>
+                        <td><strong>₹285</strong></td>
+                        <td><span class="badge badge-info">Cash on Delivery</span></td>
+                        <td><span class="badge badge-success">Delivered</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="order-id">#ORD-9017</span></td>
+                        <td>
+                            <div class="customer-name">Vikas Gupta</div>
+                            <div class="customer-phone">+91 98765 12345</div>
+                        </td>
+                        <td>Plot 18, Adarsh Nagar</td>
+                        <td>
+                            <div>Maggi Noodles (Pack of 4), Coke 750ml</div>
+                            <span class="item-count-pill">2 items</span>
+                        </td>
+                        <td><strong>₹110</strong></td>
+                        <td><span class="badge badge-success">Online Paid</span></td>
+                        <td><span class="badge badge-success">Delivered</span></td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="order-id">#ORD-9016</span></td>
+                        <td>
+                            <div class="customer-name">Meena Singh</div>
+                            <div class="customer-phone">+91 98991 12233</div>
+                        </td>
+                        <td>House 104, Sector 2</td>
+                        <td>
+                            <div>Basmati Rice 5kg, Rajma 1kg, Haldi Powder</div>
+                            <span class="item-count-pill">3 items</span>
+                        </td>
+                        <td><strong>₹820</strong></td>
+                        <td><span class="badge badge-success">Online Paid</span></td>
+                        <td><span class="badge badge-success">Delivered</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>

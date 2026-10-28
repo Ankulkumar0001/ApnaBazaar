@@ -1,0 +1,79 @@
+﻿@model ApnaBazaar.Models.ForEmailAndOTP
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AuthLayout";
+    ViewBag.title = "Login – ApnaBazaar | Local Shopping Platform";
+}
+
+
+<!-- Fullscreen Auth Wrapper -->
+<div class="auth-wrapper">
+
+    <!-- Hero Section Matched Aurora & Tech-Dot Grid Background -->
+    <div class="auth-bg"></div>
+
+    <!-- Frosted Glass Login Card -->
+    <div class="auth-card">
+
+        <!-- Brand Logo -->
+        <a asp-action="LoginWithOTP" asp-controller="Login" class="auth-brand" >
+            <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar Logo" />
+            <span class="auth-brand-name fw-bold">
+                <span class="brand-apna">Apna</span><span class="brand-bazaar">Bazaar</span>
+            </span>
+        </a>
+
+        <!-- Header -->
+        <div class="auth-header">
+            <h1 class="auth-title">Welcome Back With OTP</h1>
+            <p class="auth-subtitle">Login to your account to continue shopping locally</p>
+        </div>
+
+        <!-- Login Form (Pure HTML) -->
+        <form id="loginForm" method="post" asp-action="LoginOTP" onsubmit="showspinner()">
+
+            <!-- Email Address -->
+            <div class="auth-field">
+                <label class="auth-label" for="loginEmail">Email Address</label>
+                <div class="auth-input-wrap">
+                    <i class="bi bi-envelope auth-input-icon"></i>
+                    <input type="email"
+                           id="loginEmail"
+                           asp-for="email"
+                           class="auth-input"
+                           placeholder="e.g. rahul@example.com"
+                           required
+                           autocomplete="email" />
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-auth-submit" id="submitBtn">
+
+                <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+                <span id="text">
+
+                    <span>Send OTP</span>
+                    <i class="bi bi-arrow-right"></i>
+
+                </span>
+            </button>
+
+        </form>
+
+        <!-- Footer Links -->
+        <div class="auth-card-footer">
+            <p class="mb-1">Login with Password <a asp-action="Index" asp-controller="Login">Login</a></p>
+            <p class="mb-1">Don't have an account? <a asp-action="UserRegister" asp-controller="Login">Register here</a></p>
+        </div>
+
+    </div>
+</div>
+
+
+

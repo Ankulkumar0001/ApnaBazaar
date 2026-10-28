@@ -1,0 +1,165 @@
+﻿@model ApnaBazaar.Models.Add_Product_CombineModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_shop-dashboardLayout";
+    ViewBag.title = "Add Product - ApnaBazaar";
+}
+<main class="main-content" style="width:100%">
+
+    <header class="top-header-bar">
+        <div class="page-headline">
+            <h1>Naya Product Jodein (Add New Product) ➕</h1>
+            <p>Apni dukaan me bikne ke liye naya saman yahan se list karein.</p>
+        </div>
+
+        <div>
+            <a asp-action="ProductAndStock" asp-controller="Merchant" class="btn btn-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Stock Suchi Par Jayein
+            </a>
+        </div>
+    </header>
+
+    <!-- Add Product Form Card -->
+    <section class="dashboard-section">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title"><i class="bi bi-bag-plus-fill"></i> Product Jankari Form</h2>
+                <p class="section-subtitle">Kripya sabhi jaruri fields dhyan se bharein</p>
+            </div>
+
+            <div class="bg-light d-flex align-items-end shadow-sm border border-1 border-success w-100 rounded rounded-3 p-2">
+                <div class="overflow-hidden rounded border border-2 border-success rounded-3" style="width:150px; height:100%;">
+                    <img src="https://static.vecteezy.com/system/resources/previews/021/042/741/original/shop-building-cartoon-flat-design-illustration-store-building-icon-free-vector.jpg" id="previewImage" width="100%" width="100%" />
+                </div>
+
+                <div class="ms-3">
+
+                    <a class="btn btn-sm mb-2 btn-success text-sm-center" id="UploadShopImage"><i class="bi bi-upload"></i> Update Product Image</a> <br />
+                    <span class="fw-bold" style="font-size:12px">Use a high-quality JPG, PNG, or WEBP image up to 5 MB.</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <form asp-action="AddNewProduct" enctype="multipart/form-data" method="post" onsubmit="showspinner()">
+            <div class="form-grid">
+
+                <input type="file" asp-for="productdata.file"  id="shopImage" accept="image/*" hidden />
+
+                <!-- Product Name -->
+                <div class="form-group">
+                    <label class="form-label">Product Ka Naam (Item Name) *</label>
+                    <input type="text" class="form-control" asp-for="productdata.product_name" placeholder="Udaharan: Fortune Refined Mustard Oil 1 Litre" required />
+                    <span class="form-helper">Poora naam aur brand likhein taaki grahak aasani se dhoond sakein.</span>
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label class="form-label">Select Shop *</label>
+                    <select class="form-select" required asp-for="productdata.shop_id">
+                        <option value="">-- Shop Select Karein --</option>
+                        @{
+                            foreach(var row in Model.shopdata)
+                            {
+                                <option value="@row.shop_id">@row.shopname</option>
+                            }
+                        }
+                        
+                    </select>
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label class="form-label">Category Chunein *</label>
+                    <select class="form-select" asp-for="productdata.product_category" required>
+                        <option value="">-- Category Select Karein --</option>
+                        <option value="groceries">Atta, Dal, Tel &amp; Chawal</option>
+                        <option value="dairy">Dairy, Doodh, Dahi &amp; Makhan</option>
+                        <option value="snacks">Snacks, Biscuits &amp; Namkeen</option>
+                        <option value="beverages">Chai, Coffee &amp; Cold Drinks</option>
+                        <option value="cleaning">Safai &amp; Ghar Ka Saman</option>
+                        <option value="personal">Personal Care &amp; Bathing Soap</option>
+                    </select>
+                </div>
+
+                <!-- Pack / Unit Size -->
+                <div class="form-group">
+                    <label class="form-label">Unit / Pack Size (Vajan ya Size) *</label>
+                    <input type="text" class="form-control" asp-for="productdata.product_unit" placeholder="Jaise: 1kg, 500g, 1L, Pack of 4" required />
+                </div>
+
+                <!-- Selling Price -->
+                <div class="form-group">
+                    <label class="form-label">Bikri Muly (Selling Price in ₹) *</label>
+                    <input type="number" asp-for="productdata.product_selling_price" class="form-control" placeholder="Jaise: 155" min="1" required />
+                    <span class="form-helper">Jis daam par aap grahak ko bechna chahte hain.</span>
+                </div>
+
+                <!-- MRP -->
+                <div class="form-group">
+                    <label class="form-label">MRP (Maximum Retail Price in ₹) *</label>
+                    <input type="number" asp-for="productdata.product_mrp" class="form-control" placeholder="Jaise: 175" min="1" required />
+                    <span class="form-helper">Packet par likha hua MRP rate.</span>
+                </div>
+
+                <!-- Stock Count -->
+                <div class="form-group">
+                    <label class="form-label">Dukaan Me Stock (Total Quantity) *</label>
+                    <input type="number" asp-for="productdata.product_stock" class="form-control" placeholder="Jaise: 25" min="1" required />
+                </div>
+
+                <!-- Stock Alert Level -->
+                <div class="form-group">
+                    <label class="form-label">Low Stock Alert (Kitne piece par warning mile?)</label>
+                    <input type="number" asp-for="productdata.product_lowstock" class="form-control" placeholder="Jaise: 5" min="1"  />
+                </div>
+
+                <!-- Product Description -->
+                <div class="form-group form-grid-full">
+                    <label class="form-label">Product Ka Vivran (Description)</label>
+                    <textarea class="form-textarea" asp-for="productdata.product_discription" placeholder="Product ke fayde, expiry date ya koi anya vishesh suchna yahan likhein..."></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-group form-grid-full" style="display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">
+
+                        <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                        <span id="text">
+                            <i class="bi bi-check-circle-fill"></i> Product Dukaan Me Save Karein
+                        </span>
+                    </button>
+                  
+                </div>
+
+            </div>
+        </form>
+    </section>
+
+</main>
+<script>
+    const btn = document.getElementById("UploadShopImage");
+    const input = document.getElementById("shopImage");
+    var preview = document.getElementById("previewImage");
+
+    btn.addEventListener("click", function() {
+        input.click();
+    });
+
+    input.addEventListener("change", function() {
+        const file = this.files[0];
+
+        if (file && file.type.startsWith("image/")) {
+            document.getElementById("previewImage").src =
+                URL.createObjectURL(file);
+        }
+    });
+
+</script>

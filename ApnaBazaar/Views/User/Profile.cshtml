@@ -1,0 +1,198 @@
+﻿@model ApnaBazaar.Models.UserTable
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_WebsiteLayout";
+    ViewBag.title = "Profile - ApnaBazaar | First Local Market Plateform";
+}
+
+<body class="profile-body">
+
+    <!-- Fullscreen Layout Wrapper -->
+    <div class="profile-wrapper">
+
+        <!-- Ambient Aurora Glow & Tech-Dot Grid Background -->
+        <div class="profile-bg"></div>
+
+        <!-- Centered Profile Container -->
+        <div class="profile-container">
+
+            <!-- Top Bar: Back to Home & Brand Logo -->
+            <!-- Main Profile Card -->
+            <div class="profile-card">
+
+                <!-- User Avatar & Header Summary -->
+                <div class="profile-header">
+                    <div class="avatar-wrapper">
+                        @{
+                            if(Model.image != null)
+                            {
+                            <img src="~/images/@Model.image"
+                                    id="preview"
+                                    alt="User Avatar"
+                                    class="avatar-image" />
+                            }
+                            else
+                            {
+                                <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
+                                    id="preview"
+                                    alt="User Avatar"
+                                    class="avatar-image" />
+                            }
+                          }
+                        <label class="avatar-upload-btn" for="avatarUploadInput" title="Upload Avatar">
+                            <i class="bi bi-camera-fill"></i>
+                           
+                        </label>
+                    </div>
+
+                    <h1 class="user-name">@Model.name</h1>
+                    <p class="user-email">@Model.email</p>
+
+                    <span class="verified-pill">
+                        <i class="bi bi-patch-check-fill"></i> Verified ApnaBazaar Shopper
+                    </span>
+                </div>
+
+                <!-- Section Title -->
+                <div class="section-title">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <span>Personal Information</span>
+                </div>
+
+                <!-- Pure HTML Form (4 Fields) -->
+                <form id="profileForm" method="post" enctype="multipart/form-data"  asp-action="UpdateProfile" onsubmit="showspinner()">
+                    <div class="form-grid">
+
+                        <input type="file" id="avatarUploadInput"  accept="image/*" asp-for="file" class="avatar-file-input" />
+
+                        <!-- 1. Full Name -->
+                        <div class="form-field">
+                            <label class="field-label" for="inputFullName">
+                                Full Name <span class="star-required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <i class="bi bi-person input-icon"></i>
+                                <input type="text"
+                                       class="form-input"
+                                       asp-for="name"
+                                       id="inputFullName"
+                                       required
+                                       placeholder="Enter your full name" />
+                            </div>
+                        </div>
+
+                        <!-- 2. Email Address -->
+                        <div class="form-field">
+                            <label class="field-label" for="inputEmail">
+                                Email Address (Not Updation) <span class="star-required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email"
+                                       class="form-input"
+                                       readonly
+                                       asp-for="email"
+                                       id="inputEmail"
+                                       required
+                                       placeholder="name@example.com" />
+                            </div>
+                        </div>
+
+                        <!-- 3. Mobile Number -->
+                        <div class="form-field">
+                            <label class="field-label" for="inputMobile">
+                                Mobile Number <span class="star-required">*</span>
+                            </label>
+                            <div class="phone-box">
+                                <span class="phone-flag">🇮🇳 +91</span>
+                                <input type="tel"
+                                        asp-for="mobile"
+                                       class="form-input"
+                                       id="inputMobile"
+                                       maxlength="10"
+                                       pattern="[0-9]{10}"
+                                       required
+                                       placeholder="10-digit mobile number" />
+                            </div>
+                        </div>
+
+                        <!-- 4. Gender -->
+                        <div class="form-field">
+                            <label class="field-label" for="selectGender">Gender</label>
+                            <div class="input-container">
+                                <i class="bi bi-gender-ambiguous input-icon"></i>
+                                <select class="form-input" id="selectGender" asp-for="gender" >
+                                    @{
+                                        if(Model.gender == "male")
+                                        {
+                                            <option value="male" selected>Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="prefer_not">Prefer not to say</option>
+                                            
+                                        }else if(Model.gender=="female"){
+                                            <option value="male">Male</option>
+                                            <option value="female" selected>Female</option>
+                                            <option value="prefer_not">Prefer not to say</option>
+
+                                        }
+                                        else
+                                        {
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="prefer_not" selected>Prefer not to say</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="reset" class="btn-reset">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            <span>Reset</span>
+                        </button>
+                        <button type="submit" class="btn-submit">
+
+                            <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                           
+                            <span id="text">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Save Changes</span>
+                            </span>
+
+
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                const input = document.getElementById("avatarUploadInput");
+                const img = document.getElementById("preview");
+
+                input.addEventListener("change", function() {
+                    const file = this.files[0];
+
+                    if (file && file.type.startsWith("image/")) {
+                        img.src = URL.createObjectURL(file);
+                    }
+                });
+
+            });
+    </script>
+
+
+</body>

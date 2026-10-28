@@ -1,0 +1,105 @@
+﻿@model ApnaBazaar.Models.UserLogin
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AuthLayout";
+    ViewBag.title = "Merchant Login – ApnaBazaar | Shopkeeper Portal";
+}
+
+
+
+    <!-- Fullscreen Auth Wrapper -->
+    <div class="auth-wrapper">
+
+        <!-- Hero Section Matched Aurora & Tech-Dot Grid Background -->
+        <div class="auth-bg"></div>
+
+        <!-- White Compact Merchant Login Card -->
+        <div class="auth-card">
+
+            <!-- Brand Logo -->
+            <a asp-action="MerchantLogin" asp-controller="Login" class="auth-brand">
+                <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar Logo" />
+                <span class="auth-brand-name fw-bold">
+                    <span class="brand-apna">Apna</span><span class="brand-bazaar">Bazaar</span>
+                </span>
+            </a>
+
+            <!-- Header -->
+            <div class="auth-header">
+                <span class="auth-badge">
+                    <i class="bi bi-shield-check me-1"></i> Merchant Portal
+                </span>
+                <h1 class="auth-title">Shopkeeper Login</h1>
+                <p class="auth-subtitle">Manage your shop orders, products &amp; delivery status</p>
+            </div>
+
+            <!-- Merchant Login Form (Pure HTML) -->
+        <form id="shopLoginForm" method="post" asp-action="LoginMerchant" onsubmit="showspinner()">
+
+                <!-- Email Address -->
+                <div class="auth-field">
+                    <label class="auth-label" for="merchantEmail">Email Address</label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-envelope auth-input-icon"></i>
+                        <input type="email"
+                               id="merchantEmail"
+                               asp-for="email"
+                               class="auth-input"
+                               placeholder="merchant@example.com"
+                               required
+                               autocomplete="email" />
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="auth-field">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="auth-label mb-0" for="merchantPassword">Password</label>
+                        <a asp-action="MerchantForgotPassword" asp-controller="Login" class="small text-decoration-none" style="color:#16a34a;font-size:0.75rem;font-weight:600;">Forgot Password?</a>
+                    </div>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-lock auth-input-icon"></i>
+                        <input type="password"
+                               id="merchantPassword"
+                               asp-for="password"
+                               class="auth-input"
+                               placeholder="Enter your merchant password"
+                               required
+                               autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <label class="auth-terms">
+                    <input type="checkbox" id="rememberMerchant" name="rememberMerchant" checked />
+                    <span>Keep me logged in on this dukaan terminal</span>
+                </label>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-auth-submit" id="submitBtn">
+
+                <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+                    <span id="text">
+                         <span>Login to My Shop</span>
+                         <i class="bi bi-arrow-right"></i>
+                    </span>
+                </button>
+
+            </form>
+
+            <!-- Footer Links -->
+            <div class="auth-card-footer">
+            <p class="mb-1">Don't Remember Password? <a asp-action="MerchantLoginWithOTP" asp-controller="Login">Login with OTP</a></p>
+                <p class="mb-1">New Merchant? <a asp-action="MerchantRegister" asp-controller="Login">Register as Merchant</a></p>
+               
+            </div>
+
+        </div>
+    </div>
+
+

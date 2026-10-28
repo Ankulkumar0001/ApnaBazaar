@@ -1,0 +1,92 @@
+﻿@model ApnaBazaar.Models.ForEmailAndOTP
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AuthLayout";
+    ViewBag.title = "Verify OTP (Step 2) – ApnaBazaar";
+}
+
+
+<!-- Fullscreen Auth Wrapper -->
+<div class="auth-wrapper">
+
+    <!-- Hero Matched Aurora & Tech-Dot Grid Background -->
+    <div class="auth-bg"></div>
+
+    <!-- White Compact Reset Card -->
+    <div class="auth-card">
+
+        <!-- Brand Logo -->
+        <a asp-action="VerifyMerchantLoginOTP" asp-controller="Login" class="auth-brand">
+            <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar Logo" />
+            <span class="auth-brand-name fw-bold">
+                <span class="brand-apna">Apna</span><span class="brand-bazaar">Bazaar</span>
+            </span>
+        </a>
+
+        <!-- Header -->
+        <div class="auth-header">
+            <span class="auth-badge">
+                <i class="bi bi-2-circle-fill me-1"></i> Step 2 of 3 · Verify OTP
+            </span>
+            <h1 class="auth-title">Verify OTP</h1>
+            <p class="auth-subtitle">Enter the 4-digit verification code sent to your email</p>
+        </div>
+
+        <!-- Step 2 Form: Verify OTP -->
+        <form asp-action="VerifyMLOTP" method="post" onsubmit="showspinner()">
+
+            <div class="auth-field">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label class="auth-label mb-0" for="userOtp">Enter Verification Code (OTP)</label>
+                    <span class="badge bg-light text-success border border-success-subtle px-2 py-1" style="font-size:0.7rem;">OTP Sent</span>
+                </div>
+                <div class="auth-input-wrap">
+                    <i class="bi bi-key auth-input-icon"></i>
+                    <input type="text"
+                           id="userOtp"
+                           asp-for="otp"
+                           class="auth-input text-center fw-bold fs-5"
+                           placeholder="e.g. 4829"
+                           maxlength="6"
+                           pattern="[0-9]{4,6}"
+                           required
+                           inputmode="numeric" />
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <span class="small text-muted">Didn't receive OTP?</span>
+                    <a asp-action="MerchantLoginWithOTP" asp-controller="Login" class="small text-success fw-semibold text-decoration-none">Resend OTP</a>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth-submit mt-3" id="submitBtn">
+
+                <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+                <span id="text">
+                    
+                    <span>Verify OTP</span>
+                    <i class="bi bi-arrow-right"></i>
+
+                </span>
+            </button>
+
+        </form>
+
+        <!-- Footer Links -->
+        <div class="auth-card-footer">
+            <p class="mb-1"><a asp-action="MerchantLoginWithOTP" asp-controller="Login">← Change Email Address</a></p>
+            <div>
+                <a asp-action="MerchantLogin" asp-controller="Login" class="auth-back-link">
+                    <i class="bi bi-arrow-left"></i> Back to Password Login
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

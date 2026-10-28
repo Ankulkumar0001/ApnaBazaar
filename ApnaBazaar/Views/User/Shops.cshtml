@@ -1,0 +1,230 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_WebsiteLayout";
+    ViewBag.title = "Shops - ApnaBazaar | First Local Market Plateform";
+}
+
+
+<!-- ===== SHOPS HERO HEADER ===== -->
+<section class="shops-page-hero">
+    <div class="container-xl position-relative box">
+        <div class="text-center mb-4">
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-2">
+                <i class="bi bi-shop me-1"></i> Verified Local Dukanein
+            </span>
+            <h1 class="display-6 fw-bold text-white mb-2">
+                Explore Local <span class="text-warning">Shops &amp; Markets</span>
+            </h1>
+            <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">
+                Connect directly with verified local neighbourhood store owners, check available items, call, or order fresh essentials delivered to your doorstep.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="shops-search-wrap">
+                <div class="input-group bg-white p-1 rounded-pill shadow-sm">
+                    <span class="input-group-text bg-transparent border-0 ps-3 text-muted">
+                        <i class="bi bi-search text-success"></i>
+                    </span>
+                    <input type="text"
+                           id="heroSearch"
+                           class="form-control border-0 shadow-none"
+                           placeholder="Search shops by name, category, or area (e.g. Sharma, Grocery, Dadri)..."
+                           oninput="handleSearch()" />
+                    <button class="btn btn-outline-secondary border-0 rounded-pill px-3 d-none" id="searchClear" onclick="clearSearch()">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="handleSearch()">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== ONLY SHOPS SECTION ===== -->
+<section class="py-5 bg-light" id="shops">
+    <div class="container-xl">
+
+        <!-- Section Title & Status Count -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <span class="section-tag"><i class="bi bi-geo-alt-fill me-1"></i>Live Market Feed</span>
+                <h2 class="section-title mb-1">Local <span class="text-orange">Shops Directory</span></h2>
+                <p class="text-muted small mb-0" id="shopsCountLabel">Showing all local neighbourhood shops</p>
+            </div>
+
+        </div>
+
+        <!-- Shops Grid (Populated dynamically by script.js) -->
+        <div class="row g-4" id="shopsGrid">
+            
+            @* shop start *@
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="shop-card">
+                    <div class="shop-img">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/046/718/929/small_2x/a-neatly-arranged-clothing-boutique-features-wooden-shelves-and-racks-displaying-folded-and-hanging-garments-with-natural-light-streaming-in-from-the-entrance-photo.jpg" alt="shop photo" loading="lazy" />
+                        <span class="shop-tag">Cloths</span>
+                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>01 km</span>
+                        <span class="shop-status">
+                            <span class="status-dot"></span>Open
+                        </span>
+                    </div>
+                    <div class="shop-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="shop-name mb-0">Ankul Cloths Shop</h3>
+                            <span class="shop-cat-badge">Cloths Shop</span>
+                        </div>
+                        <div class="shop-area-text">
+                            <i class="bi bi-geo-alt-fill text-success"></i> Atta Market
+                        </div>
+                        <div class="shop-details-grid">
+                            <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span>8:00 AM - 09:00</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>50</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                        </div>
+                        <div class="shop-phone">
+                            <i class="bi bi-telephone-fill"></i> 8869882358
+                        </div>
+                    </div>
+                    <div class="shop-footer">
+                        <button class="shop-btn-primary">
+                            <i class="bi bi-shop me-2"></i> Visit Shop
+                        </button>
+                        <a href="tel:8898998855" class="shop-btn-call" title="Call Shop">
+                            <i class="bi bi-telephone-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="shop-card">
+                    <div class="shop-img">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/046/718/929/small_2x/a-neatly-arranged-clothing-boutique-features-wooden-shelves-and-racks-displaying-folded-and-hanging-garments-with-natural-light-streaming-in-from-the-entrance-photo.jpg" alt="shop photo" loading="lazy" />
+                        <span class="shop-tag">Cloths</span>
+                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>01 km</span>
+                        <span class="shop-status">
+                            <span class="status-dot"></span>Open
+                        </span>
+                    </div>
+                    <div class="shop-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="shop-name mb-0">Ankul Cloths Shop</h3>
+                            <span class="shop-cat-badge">Cloths Shop</span>
+                        </div>
+                        <div class="shop-area-text">
+                            <i class="bi bi-geo-alt-fill text-success"></i> Atta Market
+                        </div>
+                        <div class="shop-details-grid">
+                            <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span>8:00 AM - 09:00</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>50</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                        </div>
+                        <div class="shop-phone">
+                            <i class="bi bi-telephone-fill"></i> 8869882358
+                        </div>
+                    </div>
+                    <div class="shop-footer">
+                        <button class="shop-btn-primary">
+                            <i class="bi bi-shop me-2"></i> Visit Shop
+                        </button>
+                        <a href="tel:8898998855" class="shop-btn-call" title="Call Shop">
+                            <i class="bi bi-telephone-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="shop-card">
+                    <div class="shop-img">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/046/718/929/small_2x/a-neatly-arranged-clothing-boutique-features-wooden-shelves-and-racks-displaying-folded-and-hanging-garments-with-natural-light-streaming-in-from-the-entrance-photo.jpg" alt="shop photo" loading="lazy" />
+                        <span class="shop-tag">Cloths</span>
+                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>01 km</span>
+                        <span class="shop-status">
+                            <span class="status-dot"></span>Open
+                        </span>
+                    </div>
+                    <div class="shop-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="shop-name mb-0">Ankul Cloths Shop</h3>
+                            <span class="shop-cat-badge">Cloths Shop</span>
+                        </div>
+                        <div class="shop-area-text">
+                            <i class="bi bi-geo-alt-fill text-success"></i> Atta Market
+                        </div>
+                        <div class="shop-details-grid">
+                            <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span>8:00 AM - 09:00</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>50</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                        </div>
+                        <div class="shop-phone">
+                            <i class="bi bi-telephone-fill"></i> 8869882358
+                        </div>
+                    </div>
+                    <div class="shop-footer">
+                        <button class="shop-btn-primary">
+                            <i class="bi bi-shop me-2"></i> Visit Shop
+                        </button>
+                        <a href="tel:8898998855" class="shop-btn-call" title="Call Shop">
+                            <i class="bi bi-telephone-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="shop-card">
+                    <div class="shop-img">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/046/718/929/small_2x/a-neatly-arranged-clothing-boutique-features-wooden-shelves-and-racks-displaying-folded-and-hanging-garments-with-natural-light-streaming-in-from-the-entrance-photo.jpg" alt="shop photo" loading="lazy" />
+                        <span class="shop-tag">Cloths</span>
+                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>01 km</span>
+                        <span class="shop-status">
+                            <span class="status-dot"></span>Open
+                        </span>
+                    </div>
+                    <div class="shop-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h3 class="shop-name mb-0">Ankul Cloths Shop</h3>
+                            <span class="shop-cat-badge">Cloths Shop</span>
+                        </div>
+                        <div class="shop-area-text">
+                            <i class="bi bi-geo-alt-fill text-success"></i> Atta Market
+                        </div>
+                        <div class="shop-details-grid">
+                            <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span>8:00 AM - 09:00</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>50</span></div>
+                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                        </div>
+                        <div class="shop-phone">
+                            <i class="bi bi-telephone-fill"></i> 8869882358
+                        </div>
+                    </div>
+                    <div class="shop-footer">
+                        <button class="shop-btn-primary">
+                            <i class="bi bi-shop me-2"></i> Visit Shop
+                        </button>
+                        <a href="tel:8898998855" class="shop-btn-call" title="Call Shop">
+                            <i class="bi bi-telephone-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            @* shop end *@
+
+        </div>
+
+    </div>
+</section>

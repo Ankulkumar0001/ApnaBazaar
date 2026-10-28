@@ -1,0 +1,179 @@
+﻿@model ApnaBazaar.Models.DashBoardCombineModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_shop-dashboardLayout";
+    ViewBag.title = "Shopkeeper Dashboard - ApnaBazaar";
+}
+<main class="main-content">
+
+    <!-- Top Welcome Header Bar -->
+    <header class="top-header-bar">
+        <div class="page-headline">
+            <h1>Namaste, Sharma General Store 👋</h1>
+            <p>Aapki dukaan ka mukhya dashboard - Aaj ki bikri aur jaruri updates.</p>
+        </div>
+        <div>
+
+            @{
+                if (ViewBag.isVerified == true)
+                {
+                    <span class="header-status-pill  shadow-sm text-success border border-1 border-success">
+                        <span class="pulse-indicator bg-success "></span> Verified Merchant
+                    </span>
+                }
+                else
+                {
+                    <a asp-action="VerifyAccount"asp-controller="Merchant" class="btn btn-sm btn-danger">Get Verify</a>
+                    <span class="header-status-pill shadow-sm text-danger border border-1 border-danger">
+                        <span class="pulse-indicator bg-danger "></span> Verification Pending
+                    </span>
+                }
+            }
+        </div>
+        <select class="form-select" required>
+            <option value="">-- Shop Select Karein --</option>
+            @foreach(var row in Model.ShopData)
+            {
+                <option value="@row.shop_id">@row.shopname</option>
+            }
+
+        </select>
+    </header>
+
+    <!-- 4 Quick Stats Cards -->
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap green">
+                <i class="bi bi-currency-rupee"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Aaj Ki Bikri (Today)</span>
+                <span class="stat-number">₹14,850</span>
+                <span class="stat-subtext">▲ +12% kal se behtar</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap blue">
+                <i class="bi bi-cart-check"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Aaj Ke Orders</span>
+                <span class="stat-number">18 Orders</span>
+                <span class="stat-subtext">4 naye orders pending</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap amber">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Kul Products</span>
+                <span class="stat-number">142 Items</span>
+                <span class="stat-subtext">Dukaan me uplabdh</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon-wrap red">
+                <i class="bi bi-truck"></i>
+            </div>
+            <div class="stat-data">
+                <span class="stat-title">Pending Delivery</span>
+                <span class="stat-number">3 Orders</span>
+                <span class="stat-subtext">Grahak intezar me hain</span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Quick Recent Orders Section -->
+    <section class="dashboard-section">
+        <div class="section-head">
+            <div>
+                <h2 class="section-title"><i class="bi bi-bag-check-fill"></i> Haal Hi Ke Orders (Recent Orders)</h2>
+                <p class="section-subtitle">Grahakon ke aane wale latest 3 orders</p>
+            </div>
+            <a asp-action="AllOrder" asp-controller="Merchant" class="btn btn-primary btn-sm">
+                Sabhi Orders Dekhein <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="simple-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Grahak (Customer)</th>
+                        <th>Saman (Items)</th>
+                        <th>Total Rashi</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="order-id">#ORD-9021</span></td>
+                        <td>
+                            <div class="customer-name">Rahul Verma</div>
+                            <div class="customer-phone">+91 98112 34567</div>
+                        </td>
+                        <td>Aashirvaad Atta 5kg, Fortune Oil 1L</td>
+                        <td><strong>₹645</strong></td>
+                        <td><span class="badge badge-success">UPI Paid</span></td>
+                        <td><span class="badge badge-warning">New Order</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-id">#ORD-9020</span></td>
+                        <td>
+                            <div class="customer-name">Pooja Sharma</div>
+                            <div class="customer-phone">+91 97123 45678</div>
+                        </td>
+                        <td>Amul Butter 500g, Bread, Eggs (6 pcs)</td>
+                        <td><strong>₹370</strong></td>
+                        <td><span class="badge badge-info">COD</span></td>
+                        <td><span class="badge badge-warning">Preparing</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="order-id">#ORD-9019</span></td>
+                        <td>
+                            <div class="customer-name">Amit Kumar</div>
+                            <div class="customer-phone">+91 99887 76655</div>
+                        </td>
+                        <td>Tata Tea Gold 500g, Sugar 2kg</td>
+                        <td><strong>₹410</strong></td>
+                        <td><span class="badge badge-success">UPI Paid</span></td>
+                        <td><span class="badge badge-info">Out for Delivery</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Quick Action Buttons -->
+    <section class="dashboard-section">
+        <div class="section-head">
+            <h2 class="section-title"><i class="bi bi-lightning-charge-fill"></i> Quick Actions (Jaldi Kaam)</h2>
+        </div>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a asp-action="AddProduct" asp-controller="Merchant" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add New Product
+            </a>
+            <a asp-action="AllOrder" asp-controller="Merchant" class="btn btn-secondary">
+                <i class="bi bi-receipt"></i> All Orders
+            </a>
+            <a asp-action="MyShop" asp-controller="Merchant" class="btn btn-secondary">
+                <i class="bi bi-sliders"></i> My Shop
+            </a>
+
+            <a asp-action="ProductAndStock" asp-controller="Merchant" class="btn btn-secondary">
+                <i class="bi bi-sliders"></i> Product & Stock
+            </a>
+        </div>
+    </section>
+
+</main>

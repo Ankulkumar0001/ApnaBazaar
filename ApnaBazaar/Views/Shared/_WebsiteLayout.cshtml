@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/auth.css" />
+    <link rel="stylesheet" href="sweetalert2.min.css">
+</head>
+<body onload="getAllShopAndAllProduct()">
+
+    <!-- ===== MOBILE TOP HEADER ===== -->
+    <header class="mobile-header d-flex d-lg-none justify-content-between align-items-center">
+        <a href="#hero" class="d-flex align-items-center gap-2 text-decoration-none">
+            <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar" height="34" />
+            <div class="d-flex flex-column lh-1">
+                <span class="nav-brand-name fw-bold"><span class="brand-apna">Apna</span><span class="brand-bazaar text-white">Bazaar</span></span>
+                <span class="brand-tagline">Fresh &bull; Quality &bull; Always</span>
+            </div>
+        </a>
+    </header>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-lg-flex" id="mainNav">
+        <div class="container-xl">
+
+            <!-- LEFT: Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="#">
+                <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar" height="42" />
+                <div class="d-flex flex-column lh-1">
+                    <span class="nav-brand-name fw-bold"><span class="brand-apna">Apna</span><span class="brand-bazaar text-white">Bazaar</span></span>
+                    <span class="brand-tagline">Fresh &bull; Quality &bull; Always</span>
+                </div>
+            </a>
+
+            <div class="collapse navbar-collapse d-lg-flex" id="navLinks">
+                <!-- CENTER: Nav Links -->
+                <ul class="navbar-nav ms-auto align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link  " asp-action="Index" asp-controller="User">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-action="Shops" asp-controller="User">Shops</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-action="Products" asp-controller="User">Products</a></li>
+                </ul>
+
+                <!-- RIGHT: Icons -->
+                <div class="d-flex align-items-center gap-4 ms-4" >
+                    <a asp-action="Cart" asp-controller="User" class="nav-icon-btn nav-link position-relative" title="Cart">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-dot">0</span>
+                    </a>
+                    
+                    <div class="dropdown">
+                        <a  class="profile-btn dropdown-toggle" data-bs-toggle="dropdown">
+                            @{
+                                if(Context.Session.GetString("image") != null)
+                                {
+                                    <img src="~/images/@Context.Session.GetString("image")" width="32" height="32" class="rounded-5" />
+                                }
+                                else
+                                {
+                                     <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" width="32" class="rounded-5" />
+                                }
+                            }
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-4 p-2">
+                            <li><a class="dropdown-item" asp-action="Profile" asp-controller="User"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" asp-action="MyOrder" asp-controller="User"><i class="bi bi-bag me-2"></i>My Orders</a></li>
+                            <li><a class="dropdown-item" asp-action="MyWishlist" asp-controller="User"><i class="bi bi-box2-heart me-2"></i>My Wishlist</a></li>
+                            <li><a class="dropdown-item" asp-action="MyAddresses" asp-controller="User"><i class="bi bi-geo-alt me-2"></i>My Addresses</a></li>
+                            <li><a class="dropdown-item" asp-action="ChangePassword" asp-controller="User"><i class="bi bi-key me-2"></i>Change Password</a></li>
+                            <li><a class="dropdown-item" asp-action="Help" asp-controller="User"><i class="bi bi-question-circle me-2"></i>Help</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item text-danger" asp-action="Logout" asp-controller="User"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div>
+        @RenderBody()
+    </div>
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer pt-5 pb-3" id="footer">
+        <div class="container-xl">
+            <div class="row g-4">
+
+                <!-- Brand -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar" height="48" class="mb-3" />
+                    <p class="footer-desc">Your trusted platform to discover and shop from local markets. Supporting local businesses, one order at a time.</p>
+                    <div class="social-links mt-3">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <h6 class="footer-heading">Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="shops.html">Shops</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#">Offers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div class="col-6 col-md-3 col-lg-2">
+                    <h6 class="footer-heading">Categories</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Grocery</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Bakery</a></li>
+                        <li><a href="#">Pharmacy</a></li>
+                    </ul>
+                </div>
+
+                <!-- For Merchants -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <h6 class="footer-heading">For Merchants</h6>
+                    <ul class="footer-links">
+                        <li><a asp-action="MerchantLogin" asp-controller="Merchant"><i class="bi bi-box-arrow-in-right me-1"></i>Merchant Login</a></li>
+                        <li><a asp-action="MerchantRegister" asp-controller="Merchant"><i class="bi bi-person-plus me-1"></i>Register as Merchant</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-12 col-md-8 col-lg-3">
+                    <h6 class="footer-heading">Get in Touch</h6>
+                    <div class="footer-contact">
+                        <p><i class="bi bi-geo-alt-fill text-orange"></i> 45, Market Road, New Delhi – 110001</p>
+                        <p><i class="bi bi-telephone-fill text-orange"></i> +91 98765 43210</p>
+                        <p><i class="bi bi-envelope-fill text-orange"></i> hello@apnabazaar.in</p>
+                    </div>
+                    <div class="newsletter mt-3">
+                        <p class="small fw-semibold text-white mb-2">Subscribe for offers</p>
+                        <div class="input-group">
+                            <input type="email" class="form-control bg-transparent border-secondary text-white" placeholder="Your email" />
+                            <button class="btn btn-orange">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr class="footer-hr mt-4" />
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <p class="text-muted small mb-0">© 2025 ApnaBazaar. All rights reserved.</p>
+                <div class="d-flex gap-3 align-items-center">
+                    <a href="merchant-dashboard.html" class="footer-bottom-link text-success fw-semibold"><i class="bi bi-shop me-1"></i>Merchant Dashboard</a>
+                    <a href="#" class="footer-bottom-link">Privacy Policy</a>
+                    <a href="#" class="footer-bottom-link">Terms of Use</a>
+                    <a href="#" class="footer-bottom-link">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+        <div id="cartToast" class="toast align-items-center text-bg-success border-0">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold" id="toastMsg"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BOTTOM NAV (Mobile Only) ===== -->
+    <nav class="bottom-nav d-lg-none">
+        <a asp-action="Index" asp-controller="User" class="bn-item">
+            <i class="bi bi-house-fill"></i>
+            <span>Home</span>
+        </a>
+        <a asp-action="Shops" asp-controller="User" class="bn-item">
+            <i class="bi bi-shop"></i>
+            <span>Shops</span>
+        </a>
+        <a asp-action="Cart" asp-controller="User" class="bn-item bn-cart">
+            <i class="bi bi-bag"></i>
+            <span class="cart-dot" id="bnCartDot">0</span>
+        </a>
+        <a asp-action="Products" asp-controller="User" class="bn-item">
+            <i class="bi bi-grid"></i>
+            <span>Products</span>
+        </a>
+        <div class="dropup bn-item">
+            <a  class="d-flex flex-column align-items-center gap-1 text-decoration-none bn-profile-toggle" data-bs-toggle="dropdown"  style="color:#94a3b8;font-size:0.62rem;font-weight:600">
+                @{
+                    if (Context.Session.GetString("image") != null)
+                    {
+                        <img src="~/images/@Context.Session.GetString("image")" width="28" height="28" style="border-radius:50%;border:2px solid #22c55e" />
+                    }
+                    else
+                    {
+                        <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" width="28" height="28" style="border-radius:50%;border:2px solid #22c55e" />
+                    }
+                }
+                
+                <span>Profile</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 bottom-profile-menu me-1">
+
+                <li><a class="dropdown-item" asp-action="Profile" asp-controller="User"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                <li><a class="dropdown-item" asp-action="MyOrder" asp-controller="User"><i class="bi bi-bag me-2"></i>My Orders</a></li>
+                <li><a class="dropdown-item" asp-action="MyWishlist" asp-controller="User"><i class="bi bi-box2-heart me-2"></i>My Wishlist</a></li>
+                <li><a class="dropdown-item" asp-action="MyAddresses" asp-controller="User"><i class="bi bi-geo-alt me-2"></i>My Addresses</a></li>
+                <li><a class="dropdown-item" asp-action="ChangePassword" asp-controller="User"><i class="bi bi-key me-2"></i>Change Password</a></li>
+                <li><a class="dropdown-item" asp-action="Help" asp-controller="User"><i class="bi bi-question-circle me-2"></i>Help</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item text-danger" asp-action="Logout" asp-controller="User"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+               
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== SHOP DETAILS & PRODUCTS MODAL ===== -->
+    <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-dark text-white p-3 border-0" id="shopModalHeader" style="background:#08260d !important;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div id="modalShopAvatar" class="rounded-3 bg-white p-1" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏪</div>
+                        <div>
+                            <h5 class="modal-title fw-bold text-white mb-0" id="shopModalLabel">Shop Name</h5>
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <span class="badge bg-success" id="modalShopBadge">Open Now</span>
+                                <span class="text-white-50 small" id="modalShopCat">Category</span>
+                                <span class="text-warning small" id="modalShopRating">★ 4.8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Shop Info Card -->
+                    <div class="card border-0 bg-light p-3 rounded-3 mb-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div>
+                                <p class="mb-1 text-muted small" id="modalShopDesc">About shop</p>
+                                <div class="small fw-semibold text-dark"><i class="bi bi-geo-alt-fill text-success me-1"></i><span id="modalShopArea">Market Area</span> · <span id="modalShopDistance">0.3 km</span></div>
+                                <div class="small text-muted mt-1"><i class="bi bi-clock-fill text-success me-1"></i><span id="modalShopTimings">Timings</span> · <span id="modalShopDelivery">Free Delivery</span></div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="#" id="modalCallBtn" class="btn btn-outline-success btn-sm rounded-pill px-3"><i class="bi bi-telephone-fill me-1"></i> Call</a>
+                                <a href="#" id="modalWhatsAppBtn" target="_blank" class="btn btn-success btn-sm rounded-pill px-3"><i class="bi bi-whatsapp me-1"></i> WhatsApp</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Items in this Shop -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-bag-check-fill text-success me-1"></i> Available Products in this Shop</h6>
+                        <span class="badge bg-light text-muted border" id="modalProdCount">3 items</span>
+                    </div>
+                    <div class="row g-3" id="modalProductsList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0 py-2 px-4 justify-content-between">
+                    <span class="small text-muted"><i class="bi bi-shield-check text-success me-1"></i> Verified Local Merchant</span>
+                    <button type="button" class="btn btn-secondary rounded-pill btn-sm px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @{
+            if(TempData["msg"] != null)
+            {
+                <script>
+                     Swal.fire({
+                        toast: false,
+                        position: "center",
+                        icon: "success",
+                        title: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["msg"]?.ToString())),
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: false
+                       });
+                </script>
+            }
+            else if(TempData["nomsg"] != null)
+            {
+                <script>
+                     Swal.fire({
+                        toast: false,
+                        position: "center",
+                        icon: "error",
+                        title: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["nomsg"]?.ToString())),
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: false
+                       });
+                </script>
+            }
+
+        }
+
+    <script>
+        
+        let links = document.querySelectorAll(".nav-link");
+
+        links.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add("active");
+            }
+        });
+
+        let page = document.querySelectorAll(".dropdown-item");
+        page.forEach(l => {
+            if (l.href === window.location.href) {
+                l.classList.add("chalu");
+            }
+        });
+        
+        let bm = document.querySelectorAll(".bn-item");
+        bm.forEach(bml => {
+            if (bml.href === window.location.href) {
+                bml.classList.add("active");
+            }
+        });
+
+        function showspinner() {
+            var btn = document.getElementById("submitBtn");
+            var spinner = document.getElementById("spinner");
+            var text = document.getElementById("text");
+
+            spinner.classList.remove("d-none");
+            text.classList.add("d-none")
+            btn.disabled = true;
+        }
+
+    </script>
+</body>
+</html>

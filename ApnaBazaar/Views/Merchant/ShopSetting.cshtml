@@ -1,0 +1,329 @@
+﻿@model ApnaBazaar.Models.Shops_Table
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_shop-dashboardLayout";
+    ViewBag.title = "Shop Settings - ApnaBazaar";
+}
+<main class="main-content">
+
+    <header class="top-header-bar">
+        <div class="page-headline">
+            <h1>Dukaan Ki Settings (Shop Profile) ⚙️</h1>
+            <span></span>
+            <p>Yahan apni dukaan ka pata, timing, phone number aur payment details update karein.</p>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <a asp-action="MyShop" asp-controller="Merchant" class="btn btn-sm btn-primary">
+                <i class="bi bi-shop-window"></i> Back to My Shop
+            </a>
+
+            @{
+                if (Model.isVerified == true)
+                {
+                   
+
+                    <span class="header-status-pill shadow-sm text-success border border-1 border-success">
+                        <span class="pulse-indicator bg-success "></span> Verified Shop
+                    </span>
+                }
+                else
+                {
+                   
+
+                    <span class="header-status-pill shadow-sm text-danger border border-1 border-danger">
+                        <span class="pulse-indicator bg-danger "></span>Shop Verification Pending
+                    </span>
+                }
+            }
+        </div>
+    </header>
+
+    <!-- Shop Settings Form -->
+    <section class="dashboard-section">
+        <div class="section-head">
+            <h2 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"><i class="bi bi-shop-window text-success"></i>&nbsp; @Model.shopname</h2>
+            <div class="bg-light d-flex align-items-end shadow-sm border border-1 border-success w-100 rounded rounded-3 p-2">
+                @{
+                    if(Model.image != null)
+                    {
+                        <div class="overflow-hidden rounded border border-2 border-success rounded-3" style="width:150px; height:100%;">
+                            <img src="/images/@Model.image" width="100%" width="100%" id="previewImage" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="overflow-hidden rounded border border-2 border-success rounded-3" style="width:150px; height:100%;">
+                            <img src="https://static.vecteezy.com/system/resources/previews/021/042/741/original/shop-building-cartoon-flat-design-illustration-store-building-icon-free-vector.jpg" width="100%" width="100%" id="previewImage" />
+                        </div>
+                    }
+                }
+
+                <div class="ms-3">
+
+                    <a class="btn btn-sm mb-2 btn-success" id="UploadShopImage"><i class="bi bi-upload"></i> Update Shop Image</a> <br />
+                    <span class="fw-bold">Use a high-quality JPG, PNG, or WEBP image up to 5 MB.</span>
+
+                </div>
+
+            </div>
+        </div>
+
+        <form asp-action="UpdateShop" asp-controller="Merchant" enctype="multipart/form-data" method="post" onsubmit="showspinner()">
+            <div class="form-grid">
+
+                <input type="hidden" asp-for="shop_id"/>
+
+                <input type="file" asp-for="file" id="shopImage" accept="image/*" hidden />
+
+                <!-- 1. Basic Shop Info -->
+                <div class="form-group">
+                    <label class="form-label">Nayi Dukaan Ka Naam (Shop Name) *</label>
+                    <input type="text" asp-for="shopname" class="form-control" placeholder="Udaharan: Sharma Kirana & Dairy Branch 2" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Dukaan Ki Category *</label>
+                    <select class="form-select" asp-for="shop_category" required>
+                        <option value="">-- Category Select Karein --</option>
+                        <option value="kirana">Kirana &amp; General Store</option>
+                        <option value="dairy">Dairy, Doodh &amp; Makhan</option>
+                        <option value="fruits_veg">Fal &amp; Sabzi (Fruits &amp; Veg)</option>
+                        <option value="bakery">Bakery &amp; Sweets</option>
+                        <option value="medical">Medical &amp; Pharmacy</option>
+                        <option value="stationery">Stationery &amp; Books</option>
+                        <option value="electronics">Electronics &amp; Mobile Accessories</option>
+                    </select>
+                </div>
+
+                <div class="form-group form-grid-full">
+                    <label class="form-label">Dukaan Ki Tagline / Visheshata (Optional)</label>
+                    <input type="text" asp-for="shop_tagline" class="form-control" placeholder="Jaise: Taaza Doodh aur Shuddh Desi Ghee Ke Liye Prasiddh" />
+                </div>
+
+                <!-- 2. Owner & Contact Details -->
+                <div class="form-group">
+                    <label class="form-label">Dukaan Maalik / Branch Manager Ka Naam *</label>
+                    <input type="text" class="form-control" asp-for="shop_manager_name" placeholder="Poora naam likhein" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mobile Number (Primary Contact) *</label>
+                    <input type="tel" class="form-control" asp-for="mobile" placeholder="+91 98XXXXXXXX" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">WhatsApp Number (Orders Notification Ke Liye)</label>
+                    <input type="tel" class="form-control" asp-for="whatsapp_number" required placeholder="+91 98XXXXXXXX" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" readonly class="form-control" asp-for="shop_email" required placeholder="branch2@apnabazaar.in" />
+                </div>
+
+                <!-- 3. Payment & Legal Details -->
+                <div class="form-group">
+                    <label class="form-label">UPI ID (Payment Lene Ke Liye) *</label>
+                    <input type="text" class="form-control" asp-for="upi_id" placeholder="apnidukaan@upi" required />
+                    <span class="form-helper">Is UPI ID par naye customers ka payment aayega.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">GSTIN / Shop License No. (Optional)</label>
+                    <input type="text" class="form-control" asp-for="shop_gstin_number" placeholder="GST ya FSSAI number (yadi hai)" />
+                </div>
+
+                <!-- 4. Location & Address -->
+                <div class="form-group form-grid-full">
+                    <label class="form-label">Dukaan Ka Poora Pata (Full Address) *</label>
+                    <input type="text" class="form-control" asp-for="shop_full_address" placeholder="Dukaan No., Gali / Sadak Ka Naam, Market Ka Naam" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Landmark (Pehchan Ka Sthan) *</label>
+                    <input type="text" class="form-control" asp-for="shop_landmark" placeholder="Jaise: Near Metro Station, Shiv Mandir Ke Pass" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pincode *</label>
+                    <input type="text" class="form-control" asp-for="shop_pincode" placeholder="Jaise: 203207" pattern="[0-9]{6}" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Shahar / Town (City) *</label>
+                    <input type="text" class="form-control" asp-for="shop_city" placeholder="Jaise: Dadri / Greater Noida" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Home Delivery Radius (Kilometers)</label>
+                    <select class="form-select" asp-for="home_delivery_radius" required>
+                        <option value="3">3 KM ke andar</option>
+                        <option value="5" selected>5 KM ke andar</option>
+                        <option value="10">10 KM ke andar</option>
+                        <option value="pickup">Keval Store Pickup (No Delivery)</option>
+                    </select>
+                </div>
+
+                <!-- 5. Timings -->
+                <div class="form-group">
+                    <label class="form-label">Dukaan Khulne Ka Samay (Opening Time) *</label>
+                    <input type="time" asp-for="shop_opening_time" class="form-control" placeholder="Subah 8:00 AM" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Dukaan Band Hone Ka Samay (Closing Time) *</label>
+                    <input type="time" class="form-control" asp-for="shop_closing_time" placeholder="Raat 10:00 PM" required />
+                </div>  
+
+                @* map location intigration *@
+                
+                <div class="form-group form-grid-full">
+                    <label class="form-label">Shop Location (Pin Your Shop)</label>
+
+                    <p class="text-muted small">
+                        Map par apni shop ki location select karein.
+                        Aap marker ko drag bhi kar sakte hain.
+                    </p>
+
+                    <div id="map" style="height: 400px; width: 100%;"
+                         class="rounded border"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Latitude</label>
+                    <input type="text"
+                           id="latitude"
+                           asp-for="shop_latitude"
+                           class="form-control"
+                           readonly
+                           required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Longitude</label>
+                    <input type="text"
+                           id="longitude"
+                           asp-for="shop_longitude"
+                           class="form-control"
+                           readonly
+                           required />
+                </div>
+
+                @* end map location intigration *@
+
+                <div class="form-group form-grid-full" style="display: flex; gap: 14px; margin-top: 14px; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">
+
+                        <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                        <span id="text">
+                            <i class="bi bi-save2-fill"></i> Jankari Update Karein (Save Changes)
+                        </span>
+                    </button>
+                    
+                </div>
+
+            </div>
+        </form>
+    </section>
+</main>
+
+<script>
+    const btn = document.getElementById("UploadShopImage");
+    const input = document.getElementById("shopImage");
+    var preview = document.getElementById("previewImage");
+
+    btn.addEventListener("click", function() {
+        input.click();
+    });
+
+    input.addEventListener("change", function() {
+        const file = this.files[0];
+
+        if (file && file.type.startsWith("image/")) {
+            document.getElementById("previewImage").src =
+                URL.createObjectURL(file);
+        }
+    });
+
+</script>
+
+<script>
+
+    let map;
+    let marker;
+
+    async function initMap() {
+
+        // User se location permission lekar live coordinates lena
+        navigator.geolocation.getCurrentPosition(async (position) => {
+
+            const userPosition = {
+                lat: @Model.shop_latitude,
+                lng: @Model.shop_longitude
+            };
+
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } =
+                await google.maps.importLibrary("marker");
+
+            map = new Map(document.getElementById("map"), {
+                center: userPosition,
+                zoom: 16,
+                mapId: "DEMO_MAP_ID"
+            });
+
+            marker = new AdvancedMarkerElement({
+                map: map,
+                position: userPosition,
+                gmpDraggable: true,
+                title: "Your Shop Location"
+            });
+
+            updateCoordinates(userPosition);
+
+            map.addListener("click", function(event) {
+                if (!event.latLng) return;
+
+                const selectedPosition = {
+                    lat: event.latLng.lat(),
+                    lng: event.latLng.lng()
+                };
+
+                marker.position = selectedPosition;
+                updateCoordinates(selectedPosition);
+            });
+
+            marker.addListener("dragend", function() {
+                const pos = marker.position;
+
+                if (pos) {
+                    updateCoordinates({
+                        lat: pos.lat,
+                        lng: pos.lng
+                    });
+                }
+            });
+
+        }, (error) => {
+            alert("Please allow location permission to find your location.");
+        });
+    }
+
+    function updateCoordinates(position) {
+        document.getElementById("latitude").value =
+            position.lat.toFixed(7);
+
+        document.getElementById("longitude").value =
+            position.lng.toFixed(7);
+    }
+
+</script>
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnwWAOsogJCP3VxoxoKRpgpQdDq-d191o&loading=async&callback=initMap&v=weekly">
+</script>

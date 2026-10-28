@@ -1,0 +1,225 @@
+﻿@model ApnaBazaar.Models.MerchantTable
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+     Layout = "_shop-dashboardLayout";
+    ViewBag.title = "Profile Setting - ApnaBazaar";
+}
+ <main class="main-content">
+
+      <header class="top-header-bar">
+        <div class="page-headline">
+          <h1>Profile Settings (Merchant Profile) 👤</h1>
+          <p>Apni vyaktigat jankari aur merchant account details yahan manage karein.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <a asp-action="MerchantChangePassword" asp-controller="Merchant" class="btn btn-secondary btn-sm">
+            <i class="bi bi-key-fill"></i> Password Badlein
+          </a>
+            @{
+                if(Model.isVerified == true)
+                {
+                    <span class="header-status-pill shadow-sm text-success border border-1 border-success">
+                        <span class="pulse-indicator bg-success "></span> Verified Merchant
+                    </span>
+                }
+                else
+                {
+                    <span class="header-status-pill shadow-sm text-danger border border-1 border-danger">
+                        <span class="pulse-indicator bg-danger "></span> Verification Pending
+                    </span>
+                }
+            }
+        </div>
+      </header>
+
+      <!-- Profile Overview Card -->
+      <div class="profile-overview-card">
+          @* camera *@
+
+        <div class="profile-avatar-large position-relative">
+
+            @{
+                if(Model.image != null)
+                {
+                    <img id="profilePreview"
+                         src="~/images/@Model.image"
+                         alt="Profile Image"
+                         class="profile-image" />
+                }
+                else
+                {
+                    <img id="profilePreview"
+                         src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
+                         alt="Profile Image"
+                         class="profile-image" />
+                }
+            }
+
+            <label for="profileImage" class="camera-btn">
+                <i class="bi bi-camera-fill"></i>
+            </label>
+
+        </div>
+
+
+        <div class="profile-info-wrap">
+          <h2 class="profile-name">@Model.name</h2>
+          <div class="profile-subtext">
+            <span><i class="bi bi-shield-check text-success"></i> ID: APNA-MER-@Model.id</span>
+            <span>•</span>
+            <span><i class="bi bi-envelope"></i> @Model.email</span>
+          </div>
+        </div>
+        <a asp-action="MyShop" asp-controller="Merchant" class="btn btn-secondary btn-sm">
+          <i class="bi bi-shop-window"></i> My Shop
+        </a>
+      </div>
+
+      <!-- Edit Profile Form -->
+      <section class="dashboard-section">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title"><i class="bi bi-person-lines-fill"></i> Vyaktigat Jankari (Personal Details)</h2>
+            <p class="section-subtitle">Aapka naam, mobile number aur contact pata</p>
+          </div>
+        </div>
+
+        <form asp-action="UpdateMerchant" enctype="multipart/form-data" asp-controller="Merchant" method="post" onsubmit="showspinner()">
+
+           <input type="file" asp-for="file" id="profileImage" accept="image/*" hidden />
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label class="form-label">Poora Naam (Full Name) *</label>
+              <input type="text" class="form-control" asp-for="name" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Merchant ID (Read-only)</label>
+              <input type="text" class="form-control" value="APNA-MER-@Model.id" readonly style="background-color: #f1f5f9; cursor: not-allowed;" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Primary Mobile Number *</label>
+              <input type="tel" class="form-control" asp-for="mobile" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Alternate Mobile / WhatsApp</label>
+              <input type="tel" class="form-control" asp-for="altMobile" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+                    <input type="email" class="form-control" asp-for="email" readonly required style="background-color: #f1f5f9;" />
+              <span class="form-helper">Is email par OTP aur account notifications aate hain.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Aadhaar Card No. / Govt ID (Masked)</label>
+              <input type="text" class="form-control" asp-for="aadharNumber" readonly style="background-color: #f1f5f9;" />
+              <span class="form-helper">Suraksha ke karan ID number masked hai.</span>
+            </div>
+
+            <div class="form-group form-grid-full">
+              <label class="form-label">Ghar / Aawasiya Pata (Residential Address) *</label>
+              <input type="text" class="form-control" asp-for="address" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Linga (Gender)</label>
+              <select class="form-select" asp-for="gender">
+                @{
+                    if(Model.gender == "male")
+                    {
+                        <option value="male" selected>Purush (Male)</option>
+                        <option value="female">Mahila (Female)</option>
+                        <option value="other">Anya (Other)</option>
+                    }else if(Model.gender == "female")
+                    {
+                        <option value="male">Purush (Male)</option>
+                        <option value="female" selected>Mahila (Female)</option>
+                        <option value="other">Anya (Other)</option>
+                    }
+                    else
+                    {
+                        <option value="male">Purush (Male)</option>
+                        <option value="female">Mahila (Female)</option>
+                        <option value="other" selected>Anya (Other)</option>
+                    }
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Janam Tithi (Date of Birth)</label>
+              <input type="date" class="form-control" asp-for="dob" />
+            </div>
+
+            <div class="form-group form-grid-full" style="display: flex; gap: 14px; margin-top: 14px; flex-wrap: wrap;">
+              <button type="submit" class="btn btn-primary">
+
+                <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+               <span id="text"><i class="bi bi-check-circle-fill"></i> Profile Update Karein</span>
+              </button>
+
+              <button type="reset" class="btn btn-secondary">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </section>
+
+      <!-- Security / Change Password Quick Card -->
+      <section class="dashboard-section" style="border-left: 4px solid #16a34a;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+              <i class="bi bi-shield-lock-fill text-success"></i> Account Security &amp; Password
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 0 0;">
+              Apne account ki suraksha ke liye samay-samay par password badalte rahein.
+            </p>
+          </div>
+          <a asp-action="MerchantChangePassword" asp-controller="Merchant" class="btn btn-secondary">
+            <i class="bi bi-key-fill"></i> Password Badlein <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+
+    <script> 
+        document.getElementById("profileImage").addEventListener("change", function() {
+            const file = this.files[0];
+
+            if (file && file.type.startsWith("image/")) {
+                document.getElementById("profilePreview").src =
+                    URL.createObjectURL(file);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+        const input = document.getElementById("profileImage");
+        const img = document.getElementById("profilePreview");
+
+            input.addEventListener("change", function() {
+                const file = this.files[0];
+
+                if (file && file.type.startsWith("image/")) {
+                    img.src = URL.createObjectURL(file);
+                }
+            });
+
+        });
+
+    </script>

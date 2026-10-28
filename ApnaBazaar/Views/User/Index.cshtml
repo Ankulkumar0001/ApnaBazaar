@@ -1,0 +1,807 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_WebsiteLayout";
+    ViewBag.title = "Home - ApnaBazaar | First Local Market Plateform";
+}
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section" id="hero">
+
+    <!-- Ambient Soothing Gradient Base -->
+    <div class="hero-base-bg"></div>
+
+    <!-- Center Content -->
+    <div class="hero-inner">
+
+        <!-- Location pill -->
+        <div class="location-strip mt-4" id="locationStrip" onclick="getLiveLocation()" style="cursor:pointer">
+            <i class="bi bi-geo-alt-fill" id="locationIcon"></i>
+            <span id="locationText">Click to Refresh</span>
+            <i class="bi bi-chevron-down ms-1" style="font-size:0.75rem;"></i>
+        </div>
+
+        <!-- Badge -->
+        <div class="hero-tag">
+            <i class="bi bi-lightning-charge-fill me-1"></i> India's #1 Local Shopping Platform
+        </div>
+
+        <!-- Title -->
+        @* <span>@TempData["msg"]</span> *@
+        <h1 class="hero-title">
+            <svg class="hero-leaf leaf-left" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+            </svg>
+            Shop From Your
+            <svg class="hero-leaf leaf-right" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+            </svg>
+            <br />
+            <span class="hero-title-market">Neighbourhood Market</span>
+        </h1>
+        <p class="hero-sub">Fresh vegetables, groceries, dairy, snacks, personal care, household items, electronics &amp; much more — delivered to your door.</p>
+
+        <!-- Search -->
+        <div class="hero-search-wrap">
+            <div class="hero-search-box">
+                <div class="search-input-wrap">
+                    <i class="bi bi-search search-icon"></i>
+                    <input type="text" id="heroSearch" class="search-input" placeholder="Search sabzi, doodh, dukan..." />
+                    <select class="form-control me-2" style="width:70px" id="distancebyUser">
+                        <option value="3">3 Km</option>
+                        <option value="5">5 Km</option>
+                        <option value="8">8 Km</option>
+                        <option value="10">10 Km</option>
+                        <option value="15">15 Km</option>
+                    </select>
+                </div>
+                <button class="search-btn" id="searchbtn" onclick="handleHeroSearch()">
+                    <i class="bi bi-search me-1"></i>
+
+                    <span id="text">
+                        Search
+                    </span>
+
+                    <div class="spinner-grow spinner-grow-sm d-none" role="status" id="spinner">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Quick Tags -->
+            <div class="quick-tags mt-3">
+                <span class="qtag" onclick="qs('Grocery')">🛒 Grocery</span>
+                <span class="qtag" onclick="qs('Vegetables')">🥦 Sabzi</span>
+                <span class="qtag" onclick="qs('Fruits')">🍎 Fruits</span>
+                <span class="qtag" onclick="qs('Dairy')">🥛 Dairy</span>
+                <span class="qtag" onclick="qs('Bakery')">🍞 Bakery</span>
+                <span class="qtag" onclick="qs('Pharmacy')">💊 Pharmacy</span>
+                <span class="qtag" onclick="qs('Electronics')">📱 Electronics</span>
+                <span class="qtag" onclick="qs('Clothing')">👕 Clothing</span>
+                <span class="qtag" onclick="qs('Stationery')">📚 Stationery</span>
+                <span class="qtag" onclick="qs('Hardware')">🔧 Hardware</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Stats Strip -->
+    <div class="hero-stats">
+        <div class="container-xl">
+            <div class="row g-0 text-center">
+                <div class="col-6 col-md-3 stat-item"><h4>120+</h4><p>Local Shops</p></div>
+                <div class="col-6 col-md-3 stat-item"><h4>5K+</h4><p>Products</p></div>
+                <div class="col-6 col-md-3 stat-item"><h4>10K+</h4><p>Happy Customers</p></div>
+                <div class="col-6 col-md-3 stat-item"><h4>30 min</h4><p>Avg Delivery</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="pt-5 bg-light" id="categories">
+    <div class="container-xl">
+        <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+            <div>
+                <span class="section-tag"><i class="bi bi-grid-3x3-gap-fill me-1"></i>Explore Markets</span>
+                <h2 class="section-title mb-1">Shop by <span class="text-orange">Category</span></h2>
+                <p class="text-muted small mb-0">Scroll horizontally &amp; tap any category to filter local neighbourhood shops</p>
+            </div>
+        </div>
+
+        <!-- Modern Horizontal Scroll Track -->
+        <div class="cat-scroll-wrap">
+            <div class="cat-scroll-track" id="catScrollTrack">
+
+                <!-- 1. Grocery -->
+                <div class="cat-card cat-theme-grocery" onclick="selectShopCategory('Grocery')">
+                    <div class="cat-icon-circle">🛒</div>
+                    <h6 class="cat-name">Grocery</h6>
+                    <span class="cat-sub">Kirana &amp; Ration</span>
+                </div>
+
+                <!-- 2. Sabzi -->
+                <div class="cat-card cat-theme-sabzi" onclick="selectShopCategory('Vegetables')">
+                    <div class="cat-icon-circle">🥦</div>
+                    <h6 class="cat-name">Sabzi &amp; Mandi</h6>
+                    <span class="cat-sub">Farm Fresh</span>
+                </div>
+
+                <!-- 3. Fruits -->
+                <div class="cat-card cat-theme-fruits" onclick="selectShopCategory('Fruits')">
+                    <div class="cat-icon-circle">🍎</div>
+                    <h6 class="cat-name">Fresh Fruits</h6>
+                    <span class="cat-sub">Seasonal &amp; Sweet</span>
+                </div>
+
+                <!-- 4. Dairy -->
+                <div class="cat-card cat-theme-dairy" onclick="selectShopCategory('Dairy')">
+                    <div class="cat-icon-circle">🥛</div>
+                    <h6 class="cat-name">Dairy &amp; Sweets</h6>
+                    <span class="cat-sub">Milk, Paneer &amp; Ghee</span>
+                </div>
+
+                <!-- 5. Bakery -->
+                <div class="cat-card cat-theme-bakery" onclick="selectShopCategory('Bakery')">
+                    <div class="cat-icon-circle">🍞</div>
+                    <h6 class="cat-name">Bakery &amp; Cakes</h6>
+                    <span class="cat-sub">Fresh Breads &amp; Bakes</span>
+                </div>
+
+                <!-- 6. Pharmacy -->
+                <div class="cat-card cat-theme-pharmacy" onclick="selectShopCategory('Pharmacy')">
+                    <div class="cat-icon-circle">💊</div>
+                    <h6 class="cat-name">Pharmacy</h6>
+                    <span class="cat-sub">Medicines &amp; Health</span>
+                </div>
+
+                <!-- 7. Electronics -->
+                <div class="cat-card cat-theme-electronics" onclick="selectShopCategory('Electronics')">
+                    <div class="cat-icon-circle">📱</div>
+                    <h6 class="cat-name">Electronics</h6>
+                    <span class="cat-sub">Mobiles &amp; Gadgets</span>
+                </div>
+
+                <!-- 8. Clothing -->
+                <div class="cat-card cat-theme-clothing" onclick="selectShopCategory('Clothing')">
+                    <div class="cat-icon-circle">👕</div>
+                    <h6 class="cat-name">Clothing</h6>
+                    <span class="cat-sub">Apparel &amp; Fashion</span>
+                </div>
+
+                <!-- 9. Stationery -->
+                <div class="cat-card cat-theme-stationery" onclick="selectShopCategory('Stationery')">
+                    <div class="cat-icon-circle">📚</div>
+                    <h6 class="cat-name">Stationery</h6>
+                    <span class="cat-sub">Books &amp; Office</span>
+                </div>
+
+                <!-- 10. Hardware -->
+                <div class="cat-card cat-theme-hardware" onclick="selectShopCategory('Hardware')">
+                    <div class="cat-icon-circle">🔧</div>
+                    <h6 class="cat-name">Hardware</h6>
+                    <span class="cat-sub">Tools &amp; Paints</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SHOPS SECTION ===== -->
+<section class="py-5 bg-light" id="shops">
+    <div class="container-xl">
+        <!-- Section Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <span class="section-tag"><i class="bi bi-geo-alt-fill me-1"></i>Nearby Markets</span>
+                <h2 class="section-title mb-1">Local <span class="text-orange">Shops & Dukanein</span></h2>
+                <p class="text-muted small mb-0" id="shopsCountLabel">Showing all local neighbourhood shops</p>
+            </div>
+            <a href="#categories" class="btn-view-all">Browse Categories <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+
+        <!-- Shops Grid (Populated dynamically) -->
+        <div class="row g-4" id="shopsGrid">
+
+            @* shop card start   *@
+                @* render form api *@
+            @* shop card end   *@
+
+            
+           
+
+
+        </div>
+
+        <!-- No Shops Found State -->
+        <div id="noShopsState" class="text-center py-5 d-none">
+            <div class="mb-3" style="font-size: 3.5rem;">🏬🔍</div>
+            <h4 class="fw-bold mb-2">No Shops Found</h4>
+            <p class="text-muted mb-3" id="noShopsMsg">No local shops match your search in this category.</p>
+            <button class="btn btn-success rounded-pill px-4" onclick="resetShopFilters()"><i class="bi bi-arrow-counterclockwise me-1"></i> View All Shops</button>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== PRODUCTS SECTION ===== -->
+<section class="py-5 bg-light" id="products">
+    <div class="container-xl">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <span class="section-tag">Fresh Picks</span>
+                <h2 class="section-title mb-0">Featured <span class="text-orange">Products</span></h2>
+            </div>
+            <a href="products.html" class="btn-view-all">View All <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+        <div class="row g-4" id="productsGrid">
+
+           @* render product here *@
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    var searchInput = document.getElementById("heroSearch");
+
+    searchInput.addEventListener("change", function () {
+        
+        var data = searchInput.value;
+        if(data === ""){
+            getAllShopAndAllProduct();
+        }
+
+    });
+
+    var spinner = document.getElementById("spinner");
+    var text = document.getElementById("text");
+    getLiveLocation()
+
+    function handleHeroSearch() {
+
+        if (!searchInput) {
+            console.error("heroSearch input nahi mila!");
+            return;
+        }
+
+        const search = searchInput.value.trim();
+
+        if (search === "") {
+            getAllShopAndAllProduct();
+            spinner.classList.remove("d-none")
+            text.classList.add("d-none")
+            document.getElementById("shops").scrollIntoView({
+                                                        behavior: "smooth"
+                                                    });
+
+        } else {
+            searchShopAndProductCat()
+            spinner.classList.remove("d-none")
+            text.classList.add("d-none")
+            document.getElementById("shops").scrollIntoView({
+                                                        behavior: "smooth"
+                                                    });
+        }
+    }
+
+    function getLiveLocation() {
+        const text = document.getElementById("locationText");
+
+        text.textContent = "Fetching your location...";
+
+        // console.log("1. Function started");
+
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                // console.log("2. GPS SUCCESS");
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // console.log("Latitude:", lat);
+                // console.log("Longitude:", lon);
+
+                getLocationName(lat, lon).then(name => {
+                    document.getElementById("locationText").textContent = name;
+                });
+            },
+            function(error) {
+                console.error("GPS ERROR:", error.code, error.message);
+
+                text.textContent =
+                    `GPS Error ${error.code}: ${error.message}`;
+            },
+            {
+                enableHighAccuracy: false,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+
+    async function getLocationName(lat, lon) {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=17&addressdetails=1`;
+
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+
+            // update location api start
+           const id = @Context.Session.GetString("userid");
+           try{
+                var form = new FormData();
+                form.append("id", id);
+                form.append("latitude", lat);
+                form.append("longitude", lon);
+
+                var response = await fetch("http://localhost:5055/api/UserAPI/updateUserLocation", { method: "PATCH",body:form})
+
+                if (!response.ok) {
+                    console.log("not ok")
+                    return "Unable to fetch location";
+                }
+
+                
+
+           }catch (error){
+                console.log("error")
+                return "Unable to fetch location";
+           }
+
+            // update location api end
+
+            return data.display_name || "Location not found";
+        } catch {
+            return "Unable to fetch location";
+        }
+    }
+    
+    async function getAllShopAndAllProduct(){
+
+        try{
+            var shoprow = document.getElementById("shopsGrid");
+            var productsGrid = document.getElementById("productsGrid");
+            const id = @Context.Session.GetString("userid");
+            const distanceKM = document.getElementById("distancebyUser").value;
+
+            shoprow.innerHTML = "";
+            productsGrid.innerHTML = "";
+
+            var response = await fetch(`http://localhost:5055/api/UserAPI/GetNearbyShops?id=${id}&distanceKm=${distanceKM}`);
+            
+            if(!response.ok){
+                console.log("Response not ok");
+                return
+            }
+
+            var data = await response.json();
+
+            if(Array.isArray(data.data) && data.data.length > 0){
+
+                for(var shop of data.data){
+
+                    var image = "http://localhost:5055/images/" + shop.image
+                    var row = `
+                       <div class="col-12 col-md-6 col-lg-4">
+                        <div class="shop-card">
+                            <div class="shop-img">
+                                        <img src="${image}" alt="shop photo" loading="lazy" />
+                                    <span class="shop-tag">${shop.shop_category}</span>
+                                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>${shop.distance} km</span>
+                                <span class="shop-status">
+                                 <span class="status-dot"></span>Open</span>
+
+                            
+                            </div>
+                            <div class="shop-body">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <h3 class="shop-name mb-0">${shop.shopname}</h3>
+                                            <span class="shop-cat-badge">${shop.shop_category}</span>
+                                </div>
+                                <div class="shop-area-text">
+                                            <i class="bi bi-geo-alt-fill text-success"></i> ${shop.shop_full_address}
+                                </div>
+                                <div class="shop-details-grid">
+                                                    <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span> ${shop.shop_opening_time} -  ${shop.shop_closing_time}</span></div>
+                                    <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>${shop.home_delivery_radius}</span></div>
+                                  
+                                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                                    
+                                </div>
+                                <div class="shop-phone">
+                                        <i class="bi bi-telephone-fill"></i> ${shop.mobile}
+                                </div>
+                            </div>
+                            <div class="shop-footer">
+                                <button class="shop-btn-primary">
+                                    <i class="bi bi-shop me-2"></i> Visit Shop
+                                </button>
+                                    <a href="tel:${shop.mobile}" class="shop-btn-call" title="Call Shop">
+                                    <i class="bi bi-telephone-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    `
+
+                    shoprow.innerHTML += row;
+                    spinner.classList.add("d-none")
+                    text.classList.remove("d-none")
+                    
+                    
+
+                }
+            }
+            else{
+                var row = `
+                         <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 py-5 px-3">
+                        <div class="card-body text-center">
+
+                            <div class="bg-light rounded-circle d-inline-flex
+                                align-items-center justify-content-center mb-4"
+                                 style="width: 90px; height: 90px;">
+                                <i class="bi bi-shop-window text-success"
+                                   style="font-size: 3rem;"></i>
+                            </div>
+
+                            <h4 class="fw-bold text-dark mb-2">
+                                No Shops Found
+                            </h4>
+
+                            <p class="text-secondary mx-auto mb-4"
+                               style="max-width: 420px;">
+                                We couldn't find any shops nearby.
+                                Try increasing your search distance or
+                                check back later for new stores.
+                            </p>
+
+                            <button type="button"
+                                    class="btn btn-success rounded-pill px-4 py-2"
+                                    onclick="getAllShopAndAllProduct()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>
+                                Refresh Shops
+                            </button>
+
+                            <div class="mt-4">
+                                <span class="badge bg-light text-secondary
+                                    border rounded-pill px-3 py-2">
+                                    <i class="bi bi-geo-alt me-1"></i>
+                                    Discover local shops around you
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                `
+                shoprow.innerHTML = row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+
+            }
+
+
+            if (Array.isArray(data.data_second) && data.data_second.length > 0) {
+                for (var product of data.data_second) {
+
+                    var image = "http://localhost:5055/images/" + product.product_image;
+                var save = product.product_mrp - product.product_selling_price;
+                var savepercentage = parseInt((save / product.product_mrp) * 100);
+                var row = `
+                        <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="${image}" alt="Basmati Rice" />
+                                <span class="disc-badge">-${savepercentage}%</span>
+                        </div>
+                        <div class="product-body">
+                                <div class="p-cat-badge">${product.product_category}</div>
+                                <div class="product-name">${product.product_name}</div>
+                            <div class="p-meta-row">
+                                        <span class="p-unit"><i class="bi bi-box-seam me-1"></i>${product.product_unit}</span>
+                            </div>
+                                <div class="p-shop"><i class="bi bi-shop me-1"></i>${product.shopname}</div>
+                            <div class="product-price-row">
+                                        <span class="p-price">₹${product.product_selling_price}</span>
+                                        <span class="p-old">₹${product.product_mrp}</span>
+                                <span class="p-save">Save ₹${save}</span>
+                            </div>
+                            <button class="add-cart-btn"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                `
+                productsGrid.innerHTML += row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+            }
+          } 
+          else{
+              var row = `
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 py-5 px-3">
+                        <div class="card-body text-center">
+
+                            <div class="bg-light rounded-circle d-inline-flex
+                                        align-items-center justify-content-center mb-4"
+                                    style="width: 90px; height: 90px;">
+                                <i class="bi bi-basket3 text-success"
+                                    style="font-size: 3rem;"></i>
+                            </div>
+
+                            <h4 class="fw-bold text-dark mb-2">
+                                No Products Found
+                            </h4>
+
+                            <p class="text-secondary mx-auto mb-4"
+                                style="max-width: 430px;">
+                                Oops! We couldn't find any products nearby.
+                                Try exploring another category or check back
+                                later for exciting new arrivals.
+                            </p>
+
+                            <button type="button"
+                                    class="btn btn-success rounded-pill px-4 py-2"
+                                    onclick="getAllShopAndAllProduct()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>
+                                Explore Again
+                            </button>
+
+                            <div class="mt-4">
+                                <span class="badge bg-light text-secondary
+                                                border rounded-pill px-3 py-2">
+                                    <i class="bi bi-bag-heart me-1"></i>
+                                    Discover something you love
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+              `
+                productsGrid.innerHTML = row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+          }
+            
+        }catch (error){
+            console.log(error.message)
+        }
+
+    }
+
+    async function searchShopAndProductCat(){
+
+        try{
+            var shoprow = document.getElementById("shopsGrid");
+            var productsGrid = document.getElementById("productsGrid");
+            const searchInput = document.getElementById("heroSearch").value;
+            const id = @Context.Session.GetString("userid");
+            const distanceKM = document.getElementById("distancebyUser").value;
+
+             var response = await fetch(`http://localhost:5055/api/UserAPI/SearchNearby?id=${id}&shopCategory=${searchInput}&distanceKm=${distanceKM}`);
+
+             shoprow.innerHTML = "";
+             productsGrid.innerHTML = "";
+
+             if(!response.ok){
+                console.log("Response not ok");
+                return
+             }
+
+             var data = await response.json();
+
+             if(Array.isArray(data.data) && data.data.length > 0){
+
+                for(var shop of data.data){
+
+                    var image = "http://localhost:5055/images/" + shop.image
+                    var row = `
+                       <div class="col-12 col-md-6 col-lg-4">
+                        <div class="shop-card">
+                            <div class="shop-img">
+                                        <img src="${image}" alt="shop photo" loading="lazy" />
+                                    <span class="shop-tag">${shop.shop_category}</span>
+                                        <span class="shop-dist-badge"><i class="bi bi-geo-alt-fill me-1"></i>${shop.distance} km</span>
+                                <span class="shop-status">
+                                 <span class="status-dot"></span>Open</span>
+
+                            
+                            </div>
+                            <div class="shop-body">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <h3 class="shop-name mb-0">${shop.shopname}</h3>
+                                            <span class="shop-cat-badge">${shop.shop_category}</span>
+                                </div>
+                                <div class="shop-area-text">
+                                            <i class="bi bi-geo-alt-fill text-success"></i> ${shop.shop_full_address}
+                                </div>
+                                <div class="shop-details-grid">
+                                                    <div class="shop-detail-item"><i class="bi bi-clock-fill"></i><span> ${shop.shop_opening_time} -  ${shop.shop_closing_time}</span></div>
+                                    <div class="shop-detail-item"><i class="bi bi-box-seam-fill"></i><span>100</span></div>
+                                            <div class="shop-detail-item"><i class="bi bi-truck"></i><span>${shop.home_delivery_radius}</span></div>
+                                  
+                                            <div class="shop-detail-item"><i class="bi bi-shield-check"></i><span>Verified Local</span></div>
+                                    
+                                </div>
+                                <div class="shop-phone">
+                                        <i class="bi bi-telephone-fill"></i> ${shop.mobile}
+                                </div>
+                            </div>
+                            <div class="shop-footer">
+                                <button class="shop-btn-primary">
+                                    <i class="bi bi-shop me-2"></i> Visit Shop
+                                </button>
+                                    <a href="tel:${shop.mobile}" class="shop-btn-call" title="Call Shop">
+                                    <i class="bi bi-telephone-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    `
+
+                    shoprow.innerHTML += row;
+                    spinner.classList.add("d-none")
+                    text.classList.remove("d-none")
+                    
+                    
+
+                }
+            }
+            else{
+                var row = `
+                         <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 py-5 px-3">
+                        <div class="card-body text-center">
+
+                            <div class="bg-light rounded-circle d-inline-flex
+                                align-items-center justify-content-center mb-4"
+                                 style="width: 90px; height: 90px;">
+                                <i class="bi bi-shop-window text-success"
+                                   style="font-size: 3rem;"></i>
+                            </div>
+
+                            <h4 class="fw-bold text-dark mb-2">
+                                No Shops Found
+                            </h4>
+
+                            <p class="text-secondary mx-auto mb-4"
+                               style="max-width: 420px;">
+                                We couldn't find any shops nearby.
+                                Try increasing your search distance or
+                                check back later for new stores.
+                            </p>
+
+                            <button type="button"
+                                    class="btn btn-success rounded-pill px-4 py-2"
+                                    onclick="getAllShopAndAllProduct()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>
+                                Refresh Shops
+                            </button>
+
+                            <div class="mt-4">
+                                <span class="badge bg-light text-secondary
+                                    border rounded-pill px-3 py-2">
+                                    <i class="bi bi-geo-alt me-1"></i>
+                                    Discover local shops around you
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                `
+                shoprow.innerHTML = row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+
+            }
+
+
+            if (Array.isArray(data.data_second) && data.data_second.length > 0) {
+                for (var product of data.data_second) {
+
+                    var image = "http://localhost:5055/images/" + product.product_image;
+                var save = product.product_mrp - product.product_selling_price;
+                var savepercentage = parseInt((save / product.product_mrp) * 100);
+                var row = `
+                        <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="${image}" alt="Basmati Rice" />
+                                <span class="disc-badge">-${savepercentage}%</span>
+                        </div>
+                        <div class="product-body">
+                                <div class="p-cat-badge">${product.product_category}</div>
+                                <div class="product-name">${product.product_name}</div>
+                            <div class="p-meta-row">
+                                        <span class="p-unit"><i class="bi bi-box-seam me-1"></i>${product.product_unit}</span>
+                            </div>
+                                <div class="p-shop"><i class="bi bi-shop me-1"></i>${product.shopname}</div>
+                            <div class="product-price-row">
+                                        <span class="p-price">₹${product.product_selling_price}</span>
+                                        <span class="p-old">₹${product.product_mrp}</span>
+                                <span class="p-save">Save ₹${save}</span>
+                            </div>
+                            <button class="add-cart-btn"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                `
+                productsGrid.innerHTML += row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+            }
+          } 
+          else{
+              var row = `
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 py-5 px-3">
+                        <div class="card-body text-center">
+
+                            <div class="bg-light rounded-circle d-inline-flex
+                                        align-items-center justify-content-center mb-4"
+                                    style="width: 90px; height: 90px;">
+                                <i class="bi bi-basket3 text-success"
+                                    style="font-size: 3rem;"></i>
+                            </div>
+
+                            <h4 class="fw-bold text-dark mb-2">
+                                No Products Found
+                            </h4>
+
+                            <p class="text-secondary mx-auto mb-4"
+                                style="max-width: 430px;">
+                                Oops! We couldn't find any products nearby.
+                                Try exploring another category or check back
+                                later for exciting new arrivals.
+                            </p>
+
+                            <button type="button"
+                                    class="btn btn-success rounded-pill px-4 py-2"
+                                    onclick="getAllShopAndAllProduct()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>
+                                Explore Again
+                            </button>
+
+                            <div class="mt-4">
+                                <span class="badge bg-light text-secondary
+                                                border rounded-pill px-3 py-2">
+                                    <i class="bi bi-bag-heart me-1"></i>
+                                    Discover something you love
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+              `
+                productsGrid.innerHTML = row;
+                spinner.classList.add("d-none")
+                text.classList.remove("d-none")
+          }
+             
+             spinner.classList.add("d-none")
+             text.classList.remove("d-none")
+
+
+        }catch(error){
+            console.log("Response error");
+        }
+    }
+
+</script>
+
+

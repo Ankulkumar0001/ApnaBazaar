@@ -1,0 +1,166 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_WebsiteLayout";
+    ViewBag.title = "Products - ApnaBazaar | First Local Market Plateform";
+}
+
+
+<!-- ===== PRODUCTS HERO HEADER ===== -->
+<section class="products-page-hero">
+    <div class="container-xl position-relative box">
+        <div class="text-center mb-4">
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-2">
+                <i class="bi bi-bag-check-fill me-1"></i> Fresh Local Inventory
+            </span>
+            <h1 class="display-6 fw-bold text-white mb-2">
+                All Local <span class="text-warning">Products &amp; Essentials</span>
+            </h1>
+            <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">
+                Shop directly from verified neighbourhood stores. Compare prices, add to cart, and get quick delivery to your home.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="products-search-wrap">
+                <div class="input-group bg-white p-1 rounded-pill shadow-sm">
+                    <span class="input-group-text bg-transparent border-0 ps-3 text-muted">
+                        <i class="bi bi-search text-success"></i>
+                    </span>
+                    <input type="text"
+                           id="productSearchInput"
+                           class="form-control border-0 shadow-none"
+                           placeholder="Search products (e.g. Basmati Rice, Earbuds, Cake, Milk, Kurti)..."
+                           oninput="handleProductSearch()" />
+                    <button class="btn btn-outline-secondary border-0 rounded-pill px-3 d-none" id="searchClear" onclick="clearProductSearch()">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="handleProductSearch()">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== ONLY PRODUCTS SECTION ===== -->
+<section class="py-5 bg-light" id="products">
+    <div class="container-xl">
+
+        <!-- Section Title & Status Count -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <span class="section-tag"><i class="bi bi-lightning-charge-fill me-1"></i>Best Neighbourhood Deals</span>
+                <h2 class="section-title mb-1">Local <span class="text-orange">Products Catalogue</span></h2>
+                <p class="text-muted small mb-0" id="productsCountLabel">Showing all available products from local stores</p>
+            </div>
+
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row g-4" id="productsGrid">
+
+            <!-- Product Card 1 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&q=80" alt="Basmati Rice" />
+                        <span class="disc-badge">-15%</span>
+                    </div>
+                    <div class="product-body">
+                        <div class="p-cat-badge">Grocery</div>
+                        <div class="product-name">Basmati Rice 5kg</div>
+                        <div class="p-meta-row">
+                            <span class="p-unit"><i class="bi bi-box-seam me-1"></i>5 kg</span>
+                        </div>
+                        <div class="p-shop"><i class="bi bi-shop me-1"></i>Sharma Store</div>
+                        <div class="product-price-row">
+                            <span class="p-price">₹299</span>
+                            <span class="p-old">₹350</span>
+                            <span class="p-save">Save ₹51</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart(1,'Basmati Rice 5kg')"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80" alt="Wireless Earbuds" />
+                        <span class="disc-badge">-20%</span>
+                    </div>
+                    <div class="product-body">
+                        <div class="p-cat-badge">Electronics</div>
+                        <div class="product-name">Wireless Earbuds</div>
+                        <div class="p-meta-row">
+                            <span class="p-unit"><i class="bi bi-box-seam me-1"></i>1 pc</span>
+                        </div>
+                        <div class="p-shop"><i class="bi bi-shop me-1"></i>Ravi Electronics</div>
+                        <div class="product-price-row">
+                            <span class="p-price">₹799</span>
+                            <span class="p-old">₹999</span>
+                            <span class="p-save">Save ₹200</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart(2,'Wireless Earbuds')"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80" alt="Fresh Cream Cake" />
+                        <span class="disc-badge">-10%</span>
+                    </div>
+                    <div class="product-body">
+                        <div class="p-cat-badge">Bakery</div>
+                        <div class="product-name">Fresh Cream Cake</div>
+                        <div class="p-meta-row">
+                            <span class="p-unit"><i class="bi bi-box-seam me-1"></i>500g</span>
+                        </div>
+                        <div class="p-shop"><i class="bi bi-shop me-1"></i>Gupta Bakery</div>
+                        <div class="product-price-row">
+                            <span class="p-price">₹450</span>
+                            <span class="p-old">₹500</span>
+                            <span class="p-save">Save ₹50</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart(3,'Fresh Cream Cake')"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&q=80" alt="Full Cream Milk" />
+                        <span class="disc-badge">-7%</span>
+                    </div>
+                    <div class="product-body">
+                        <div class="p-cat-badge">Dairy</div>
+                        <div class="product-name">Full Cream Milk 1L</div>
+                        <div class="p-meta-row">
+                            <span class="p-unit"><i class="bi bi-box-seam me-1"></i>1 L</span>
+                        </div>
+                        <div class="p-shop"><i class="bi bi-shop me-1"></i>Dairy Delight</div>
+                        <div class="product-price-row">
+                            <span class="p-price">₹65</span>
+                            <span class="p-old">₹70</span>
+                            <span class="p-save">Save ₹5</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart(4,'Full Cream Milk 1L')"><i class="bi bi-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+    </div>
+</section>

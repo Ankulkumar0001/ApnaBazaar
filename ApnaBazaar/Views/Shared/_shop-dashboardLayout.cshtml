@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.title</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <!-- Pure External CSS (No JavaScript) -->
+    <link href="~/css/shop-dashboard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.css">
+</head>
+<body>
+    <header class="mobile-top-bar">
+        <label for="sidebar-toggle" class="mobile-toggle-btn" title="Menu Kholein">
+            <i class="bi bi-list"></i>
+        </label>
+        <div class="mobile-brand">
+            <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="Logo" />
+            <span>Apna<span>Bazaar</span></span>
+        </div>
+        <span class="mobile-shop-badge">@ViewBag.Name</span>
+    </header>
+
+    <div class="dashboard-layout">
+
+        <!-- Pure CSS Toggle Checkbox (No JS) -->
+        <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input" />
+
+        <!-- Mobile Backdrop: Screen par click karke menu band karne ke liye -->
+        <label for="sidebar-toggle" class="sidebar-backdrop" title="Menu Band Karein"></label>
+
+       
+        <aside class="sidebar">
+
+            <!-- Logo & Brand Header -->
+            <div class="sidebar-header">
+                <a class="sidebar-brand">
+                    <img src="~/images/ApnaBazaar_logo_without_bg.png" alt="ApnaBazaar Logo" />
+                    <div class="brand-text">
+                        <span class="brand-title">Apna<span>Bazaar</span></span>
+                        <span class="brand-subtitle">Shopkeeper Portal</span>
+                    </div>
+                </a>
+                <!-- Mobile Close Button (X) -->
+                <label for="sidebar-toggle" class="sidebar-close-btn" title="Band Karein">
+                    <i class="bi bi-x-lg"></i>
+                </label>
+            </div>
+
+            <!-- Shop Profile Quick Badge -->
+            <div class="shopkeeper-badge-card">
+                <div class="shopkeeper-avatar overflow-hidden" style="height:50px;width:50px;">
+                    @{
+                        if (ViewBag.image != null)
+                        {
+                            <img src="/images/@ViewBag.image" height="100%" width="100%" />
+                        }
+                        else
+                        {
+                            <img src="/images/0946e520-1f22-493c-993b-daf0886c0f7f.jpg" height="100%" width="100%" />
+                        }
+                    }
+                </div>
+                <div class="shopkeeper-details">
+                    <div class="shopkeeper-name">
+                            @{
+                            if (ViewBag.isVerified)
+                                {
+                                    @ViewBag.Name
+                                    <i class="bi bi-patch-check-fill text-success"></i>
+                            }
+                            else
+                            {
+                                @ViewBag.Name
+                                <i class="bi bi-patch-exclamation-fill text-danger"></i>
+                            }
+                            }
+                     </div>
+                    <div class="shopkeeper-status">
+                        <span class="status-dot"></span> Dukaan Online
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation Menu (NO Website Links) -->
+            <ul class="sidebar-menu">
+
+                <li class="nav-section-label">Dukaan Menu</li>
+
+                <li>
+                    <a asp-action="Index" asp-controller="Merchant" class="nav-link" onclick="grow(e)">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+               
+
+                <li>
+                    <a asp-action="AllOrder" asp-controller="Merchant" class="nav-link" onclick="grow(e)">
+                        <i class="bi bi-bag-check"></i>
+                        <span>Orders</span>
+                        @* <span class="nav-pill-count">4 New</span> *@
+                    </a>
+                </li>
+
+                
+
+                <li>
+                    <a asp-action="ProductAndStock" asp-controller="Merchant" class="nav-link" onclick="grow(e)">
+                        <i class="bi bi-boxes"></i>
+                        <span>Products &amp; Stock</span>
+                        @* <span class="nav-pill-count green">142</span> *@
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-action="AddProduct" asp-controller="Merchant" class="nav-link" onclick="grow(e)">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>Add Product</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-action="MyShop" asp-controller="Merchant" class="nav-link" onclick="grow(e)"> 
+                        <i class="bi bi-gear"></i>
+                        <span>My Shop</span>
+                    </a>
+                </li>
+
+                <li>
+
+                    @{
+                        if (ViewBag.isVerified == true)
+                        {
+                            <a asp-action="AddNewShop" asp-controller="Merchant" class="nav-link" onclick="grow(e)">
+                                <i class="bi bi-plus-circle-fill"></i> 
+                                <span>Add New Shop</span>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a onclick="checkAlert()" class="nav-link">
+                                <i class="bi bi-plus-circle-fill"></i> 
+                                <span>Add New Shop</span>
+                            </a>
+                        }
+                    }
+
+                </li>
+
+                <li class="sidebar-divider"></li>
+
+                <li class="nav-section-label">Account Settings</li>
+
+                <li>
+                  <a asp-action="MerchantProfile" asp-controller="Merchant" class="nav-link">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Profile Settings</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a asp-action="MerchantChangePassword" asp-controller="Merchant" class="nav-link">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>Change Password</span>
+                  </a>
+                </li>
+
+
+            </ul>
+
+            <!-- Logout in Sidebar Footer -->
+            <div class="sidebar-footer">
+                <a asp-action="MerchantLogout" asp-controller="Merchant" class="logout-link">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Logout (Bahar Niklein)</span>
+                </a>
+            </div>
+
+        </aside>
+    
+        @RenderBody()
+    
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
+
+    <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+    </script>
+
+    <script>
+            function show(status, button) {
+                const rows = document.querySelectorAll(".product-row");
+
+                rows.forEach(function(row) {
+                    if (status === "all" || row.classList.contains(status)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+
+                // Selected button highlight
+                document.querySelectorAll(".section-head button").forEach(function(btn) {
+                    btn.classList.remove("active");
+                });
+
+                button.classList.add("active");
+            }
+    </script>
+  <script>
+        let links = document.querySelectorAll(".nav-link");
+
+        links.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add("active");
+            }
+        });
+
+        function showspinner() {
+            var btn = document.getElementById("submitBtn");
+            var spinner = document.getElementById("spinner");
+            var text = document.getElementById("text");
+
+            spinner.classList.remove("d-none");
+            text.classList.add("d-none")
+            btn.disabled = true;
+        }
+
+        function checkAlert(){
+            Swal.fire({
+                title: "Your Account is Currently Unverified,",
+                text: "So you cannot register your shop yet. Please wait until your account has been verified. Once verified, you’ll be able to register your shop on ApnaBazaar.",
+                icon: "error"
+            });
+        }
+
+        
+
+  </script>
+    @{
+        if (TempData["msg"] != null)
+        {
+            <script>
+                Swal.fire({
+                    toast: false,
+                    position: "center",
+                    icon: "success",
+                    title: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["msg"]?.ToString())),
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: false
+                });
+            </script>
+        }
+        else if (TempData["nomsg"] != null)
+        {
+            <script>
+                Swal.fire({
+                    toast: false,
+                    position: "center",
+                    icon: "error",
+                    title: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["nomsg"]?.ToString())),
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false
+                });
+            </script>
+        }
+
+    }
+
+   
+</body>
+</html>
